@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2019. Izhan Ali. Accessing/leaking/modifying source codes is prohibited. Legal action will be taken for if found.
+  -->
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+       >
+
+    <!--TODO Remove logo-->
+        <ImageView
+            android:id="@+id/recycle_item_logo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+
+
+            android:src="@drawable/logo" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/recycle_item_logo"
+            android:layout_marginStart="26dp"
+            android:id="@+id/recycle_item_lay1"
+            android:layout_marginEnd="41dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/recycle_item_text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif"
+                android:text="Amount Credited:"
+                android:textSize="11sp"
+
+                />
+
+            <TextView
+                android:id="@+id/status_credit"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/open_sans"
+                android:text="$400"
+                android:textColor="@color/md_blue_600"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toEndOf="@id/recycle_item_lay1"
+            android:layout_marginEnd="41dp"
+            android:layout_alignParentEnd="true"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amount paid:"
+                android:textSize="11sp"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif"
+                android:id="@+id/recycle_item_text2"
+                android:layout_marginTop="10dp"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$1000"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:id="@+id/recycle_item_pricepaid"
+                android:textSize="17sp"
+                android:textColor="@color/md_grey_700"
+                android:fontFamily="@font/open_sans"
+                />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recycle_item_logo"
+            android:layout_marginTop="14dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/recycle_item_datetime"
+            android:fontFamily="@font/open_sans"
+            android:text="09/07/2019 01:04:08"
+            android:textColor="@color/md_grey_850"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/recycle_item_logo"
+            android:layout_toEndOf="@id/recycle_item_datetime"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="14dp"
+            android:id="@+id/recycle_item_trid"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="@font/open_sans"
+            android:gravity="end"
+            android:text="TR No: Z0802010405299"
+            android:textColor="@color/md_grey_700"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/md_grey_850"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="9dp"
+        android:layout_below="@id/recycle_item_trid"/>
+    </RelativeLayout>
+
+

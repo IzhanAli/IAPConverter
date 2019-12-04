@@ -1,0 +1,190 @@
+
+
+        billingClient = BillingClient.newBuilder(this).setListener(listener).build();
+
+        billingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingSetupFinished(BillingResult billingResult) {
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                    // The BillingClient is ready. You can query purchases here.
+                }
+            }
+
+            @Override
+            public void onBillingServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+            }
+        });
+
+        List<String> skuList = new ArrayList<>();
+        skuList.add("premium_upgrade");
+        skuList.add("gas");
+        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+        params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
+        billingClient.querySkuDetailsAsync(params.build(),
+                new SkuDetailsResponseListener() {
+                    @Override
+                    public void onSkuDetailsResponse(BillingResult billingResult,
+                                                     List<SkuDetails> skuDetailsList) {
+                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && skuDetailsList != null) {
+                            for (SkuDetails skuDetails : skuDetailsList) {
+
+
+                                String sku = skuDetails.getSku();
+                                String price = skuDetails.getPrice();
+                                if ("premium_upgrade".equals(sku)) {
+                                    premiumUpgradePrice = price;
+                                } else if ("gas".equals(sku)) {
+                                    gasPrice = price;
+
+
+                                }
+
+                                BillingFlowParams params = BillingFlowParams.newBuilder()
+                                        .setSkuDetails(skuDetails)
+
+                                        .build();
+
+
+                            }
+                        }
+
+                    }
+                });
+
+
+    }
+
+    @Override
+    public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
+        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK
+                && purchases != null) {
+            for (Purchase purchase : purchases) {
+                handlePurchase(purchase);
+            }
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+            // Handle an error caused by a user cancelling the purchase flow.
+        } else {
+            // Handle any other error codes.
+        }
+    }
+
+    private void handlePurchase(Purchase purchase) {
+        if (!verifyValidSignature(purchase.getOriginalJson(), purchase.getSignature())) {
+            Log.i("h", "Got a purchase: " + purchase + "; but signature is bad. Skipping...");
+            return;
+        }
+
+        Log.d("f", "Got a verified purchase: " + purchase);
+
+
+    }
+
+    private static final String BASE_64_ENCODED_PUBLIC_KEY = "CONSTRUCT_YOUR_KEY_AND_PLACE_IT_HERE";
+
+    private boolean verifyValidSignature(String signedData, String signature) {
+        // Some sanity checks to see if the developer (that's you!) really followed the
+        // instructions to run this sample (don't put these checks on your app!)
+        if (BASE_64_ENCODED_PUBLIC_KEY.contains("CONSTRUCT_YOUR")) {
+            throw new RuntimeException("Please update your app's public key at: "
+                    + "BASE_64_ENCODED_PUBLIC_KEY");
+        }
+
+    }
+
+
+
+
+        mBillingClient = BillingClient.newBuilder(ConversionActivity.this).setListener(this).build();
+        mBillingClient.startConnection(new BillingClientStateListener() {
+
+            @Override
+            public void onBillingSetupFinished(BillingResult billingResult) {
+
+            }
+
+            @Override
+            public void onBillingServiceDisconnected() {
+                //TODO implement your own retry policy
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+            }
+        });
+
+
+ final   List<String> skuList = new ArrayList<>();
+
+        skuList.add("item1");
+        skuList.add("item2");
+        skuList.add("item3");
+        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+        params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
+
+        mBillingClient.querySkuDetailsAsync(params.build(),
+                new SkuDetailsResponseListener() {
+                    @Override
+                    public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
+                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && skuDetailsList != null) {
+                            for (SkuDetails skuDetails : skuDetailsList) {
+
+
+                                String sku = skuDetails.getSku();
+                                String price = skuDetails.getPrice();
+                                if ("item1".equals(sku)) {
+                                    item1price = price;
+                                } else if ("item2".equals(sku)) {
+                                    item2price = price;
+
+
+                                } else if ("item3".equals(sku)) {
+                                    item3price = price;
+                            }
+                        }
+                    }
+
+                });
+
+
+
+        mBuyButton = findViewById(R.id.button);
+        mBuyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BillingFlowParams flowParams = BillingFlowParams.newBuilder()
+                        .setSkuDetails(skuDetails)
+                        .build();
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
+
+        if (responseCode == BillingClient.BillingResponseCode.OK
+                && purchases != null) {
+            for (Purchase purchase : purchases) {
+                handlePurchase(purchase);
+            }
+        } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
+            // Handle an error caused by a user cancelling the purchase flow.
+            Log.d(TAG, "User Canceled" + responseCode);
+        } else if (responseCode == BillingClient.BillingResponse.ITEM_ALREADY_OWNED) {
+            mSharedPreferences.edit().putBoolean(getResources().getString(R.string.pref_remove_ads_key), true).commit();
+            setAdFree(true);
+            mBuyButton.setText(getResources().getString(R.string.pref_ad_removal_purchased));
+            mBuyButton.setEnabled(false);
+        } else {
+            Log.d(TAG, "Other code" + responseCode);
+            // Handle any other error codes.
+        }
+
+    }
+
+    private void handlePurchase(Purchase purchase) {
+        if (purchase.getSku().equals(ITEM_SKU_ADREMOVAL)) {
+
+        }
+    }

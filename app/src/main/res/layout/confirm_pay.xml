@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_full_screen_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:navigationIcon="@drawable/ic_close_white_24dp"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:title="Confirm Payout" />
+
+    <TextView
+        android:id="@+id/pricetextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_full_screen_dialog"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:fontFamily="sans-serif-black"
+        android:text="$ 100"
+        android:textColor="@color/md_green_600"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/disclaimetextview"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="18dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="Note: You will receive ~60% of the amount you pay"
+        android:textAlignment="center"
+        android:textColor="@color/md_grey_850" />
+
+    <TextView
+        android:id="@+id/paytimetxtview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pricetextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="18dp"
+
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/open_sans"
+
+        android:text="Amount will be credited within 7 to 15 days"
+        android:textColor="@color/md_grey_800"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/md_blue_grey_400"
+        android:layout_below="@id/paytimetxtview"
+        android:id="@+id/lined"
+    android:layout_marginTop="19dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="11dp"/>
+    <TextView
+        android:id="@+id/payinfotxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lined"
+        android:layout_marginStart="18dp"
+
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/open_sans"
+        android:text="Payment in:"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:id="@+id/logowithnamepay"
+        android:layout_margin="17dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_below="@id/payinfotxt">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="73dp"
+            android:layout_height="73dp"
+            app:cardCornerRadius="50dp"
+            android:elevation="0dp"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+
+                android:visibility="visible"
+                android:id="@+id/paymentlogo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_error_grey_500_48dp" />
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:id="@+id/confirm_pay_prg"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:id="@+id/nameofpay"
+            android:textSize="18sp"
+            android:textAllCaps="true"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/md_black_1000"
+            android:fontFamily="sans-serif-medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="fetching pls wait.."
+
+            android:visibility="visible"
+            />
+
+
+
+        <TextView
+            android:id="@+id/idofpay"
+            android:textSize="17sp"
+            android:layout_margin="8dp"
+            android:textColor="@color/md_grey_850"
+            android:fontFamily="sans-serif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            android:text="fetching pls wait" />
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/editdetaisl"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_above="@id/placeregbtn"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+
+        android:text="edit details"
+        app:icon="@drawable/ic_border_color_grey_900_18dp"
+        app:iconPadding="-8dp" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/placeregbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/disclaimetextview"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="28dp"
+        android:text="Place Request" />
+
+</RelativeLayout>

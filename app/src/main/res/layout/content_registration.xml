@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/registrartionparent"
+    android:orientation="vertical"
+    android:background="@drawable/bglogin"
+    android:layout_height="match_parent"
+    tools:context=".activities.Registration"
+>
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+android:id="@+id/logoimg"
+        android:layout_marginTop="-35dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/logo"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+android:layout_gravity="center_vertical"
+android:fontFamily="@font/open_sans"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/logoimg"
+android:id="@+id/titleapp"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_contact_900_24dp"
+            android:textColor="@color/md_white_1000"
+            android:text="Register with Phone Number"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/num_lay"
+app:cardElevation="3dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:contentPadding="4dp"
+        app:cardCornerRadius="3dp">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        app:errorEnabled="true"
+        android:id="@+id/namelay"
+        android:layout_height="wrap_content"
+       >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:id="@+id/username_edittxt"
+            android:inputType="textPersonName"
+            android:maxLength="20"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:id="@+id/emaillay"
+        app:errorEnabled="true"
+        android:layout_height="wrap_content"
+       >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:id="@+id/email_edittxt"
+
+            android:inputType="textEmailAddress"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="8dp"
+        android:orientation="horizontal">
+
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/ccp"
+            android:layout_width="wrap_content"
+            app:ccp_autoDetectCountry="true"
+            app:ccp_contentColor="@color/primary"
+            android:layout_height="wrap_content"
+            app:ccp_countryPreference="in,us"
+            />
+
+
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Phone Number"
+                android:id="@+id/edittext_number"
+                android:inputType="number"
+                android:maxLength="20"
+
+                android:maxLines="1" />
+
+    </LinearLayout>
+</LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log In"
+        android:id="@+id/btn"
+
+
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="22dp"
+        android:layout_below="@id/num_lay"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:text="By 'logging in' you are agreeing to our privacy policy"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:clickable="true"
+        android:textColor="@color/md_white_1000"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:id="@+id/prvnote"
+        android:focusable="true"
+        android:layout_margin="20dp"/>
+</RelativeLayout>

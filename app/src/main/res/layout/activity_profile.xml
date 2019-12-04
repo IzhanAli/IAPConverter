@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".activities.Profile">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/profilemainlayout"
+    android:visibility="visible"
+    android:layout_height="match_parent"
+   >
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/paytitleprofile"
+        android:fontFamily="@font/open_sans"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center_horizontal"
+        android:textSize="14sp"
+        android:layout_gravity="center_horizontal"
+        android:drawableStart="@drawable/ic_account_balance_wallet_grey_900_24dp"
+        android:drawablePadding="10dp"/>
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+android:id="@+id/radiogrp1"
+        app:singleSelection="true"
+android:layout_margin="16dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <com.google.android.material.chip.Chip
+            android:text="@string/paytm"
+            android:layout_marginStart="10dp"
+android:layout_marginEnd="10dp"
+            android:id="@+id/but_paytm"
+            app:chipBackgroundColor="@color/colorAccent"
+            app:chipStrokeColor="@color/colorPrimary"
+            app:checkedIconEnabled="true"
+            android:checkable="true"
+            app:chipStrokeWidth="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:text="@string/phonepe"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/but_phonepe"
+            android:checkable="true"
+
+            app:chipBackgroundColor="@color/colorAccent"
+            app:chipStrokeColor="@color/colorPrimary"
+            app:checkedIconEnabled="true"
+            app:chipStrokeWidth="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:text="@string/google_pay"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/but_gpay"
+            android:checkable="true"
+
+            app:chipBackgroundColor="@color/colorAccent"
+            app:chipStrokeColor="@color/colorPrimary"
+            app:checkedIconEnabled="true"
+            app:chipStrokeWidth="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.chip.Chip
+            android:text="@string/paypal"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:checkable="true"
+
+            app:chipBackgroundColor="@color/colorAccent"
+            app:chipStrokeColor="@color/colorPrimary"
+            app:checkedIconEnabled="true"
+            app:chipStrokeWidth="2dp"
+            android:id="@+id/but_indpaypal"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:text="@string/upi_vpa_id"
+            android:id="@+id/but_upi"
+            android:layout_marginStart="10dp"
+            android:checkable="true"
+
+            app:chipBackgroundColor="@color/colorAccent"
+            app:chipStrokeColor="@color/colorPrimary"
+            app:checkedIconEnabled="true"
+            app:chipStrokeWidth="2dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/paypal"
+        android:id="@+id/intl_paypal"
+        android:layout_gravity="center_horizontal"/>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/paylay"
+        app:errorEnabled="true"
+        app:boxStrokeColor="@color/colorAccent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:id="@+id/paymentdetails"
+            android:maxLength="20"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+<ProgressBar
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:id="@+id/payprg"
+    android:visibility="invisible"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/submituser"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:id="@+id/notice"
+        android:textColor="@color/md_red_400"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="48dp"
+        />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/profileerror"
+        android:visibility="invisible"
+        android:gravity="center_vertical"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageViewerrorprofile"
+            android:layout_width="120dp"
+            android:layout_gravity="center"
+
+            android:src="@drawable/ic_warning_black_24dp"
+            android:layout_height="120dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+            android:id="@+id/txtviewprofile"
+            android:layout_marginTop="14dp"
+            android:textColor="#AFAEAE"
+            android:text="Unable to connect! \n Please check connection or retry later"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/verificationparent"
+    android:background="@drawable/bglogin"
+    android:layout_height="match_parent"
+    tools:context=".activities.Verification">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Verify OTP"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="102dp"
+    android:fontFamily="@font/open_sans"
+    android:textColor="@color/md_white_1000"
+    android:textSize="24sp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/userno"
+        android:layout_above="@id/txtinputverify"
+        android:layout_marginBottom="24dp"
+        android:textColor="@color/md_grey_800"
+        android:text="OTP was sent on "/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/txtinputverify"
+android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        app:counterMaxLength="6"
+
+
+        app:errorEnabled="true"
+        android:hint="Enter Otp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:id="@+id/otpbox"
+            android:maxLength="6"
+            android:singleLine="true"
+            android:inputType="number"
+            android:layout_height="wrap_content"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submit"
+        android:layout_below="@id/txtinputverify"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Submit" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/resend"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_gravity="center_horizontal"
+android:layout_centerHorizontal="true"
+        android:layout_below="@id/submit"
+        app:strokeColor="@color/primary"
+        android:width="2dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="wrap_content"
+        android:text="Resend OTP" />
+    <TextView
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+android:id="@+id/info"
+        android:textColor="@color/md_white_1000"
+        android:layout_margin="18dp"
+        android:layout_height="wrap_content"
+        android:text="*Standard rates may apply"
+      android:layout_alignParentBottom="true"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/prg"
+android:padding="25dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
+</RelativeLayout>

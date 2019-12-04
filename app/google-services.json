@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "466784162461",
+    "firebase_url": "https://reward-converter-app.firebaseio.com",
+    "project_id": "reward-converter-app",
+    "storage_bucket": "reward-converter-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466784162461:android:f2c4c959d4f2967d",
+        "android_client_info": {
+          "package_name": "com.izhandroid.opinionrewardsconverter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "466784162461-7insa0i9mmkn7584buv2uh5stgrkk746.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTWW8-Ln2Ip9Jw2T6-NVOwUhu5hIldFfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "466784162461-7insa0i9mmkn7584buv2uh5stgrkk746.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

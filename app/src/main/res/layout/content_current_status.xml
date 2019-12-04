@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019. Izhan Ali. Accessing/leaking/modifying source codes is prohibited. Legal action will be taken for if you do such things.
+  -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.CurrentStatus"
+    tools:showIn="@layout/activity_current_status"
+    >
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/status_lay1"
+
+    android:visibility="visible"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/crnt_mainstauts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+        android:text="amount to be Credited"
+        android:textAllCaps="true"
+        android:textColor="@color/md_grey_700"
+        android:textSize="21sp"
+        android:textStyle="bold"
+
+        />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+
+    android:layout_marginTop="32dp"
+    android:id="@+id/amountpaidtxtview"
+    android:layout_below="@id/crnt_mainstauts"
+    >
+    <TextView
+
+
+        android:fontFamily="@font/open_sans"
+
+        android:layout_marginStart="16dp"
+      android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Amount Paid:" />
+
+    <TextView
+        android:id="@+id/amt_crnt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_weight="2"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="$100"
+        android:textColor="@color/md_black_1000"
+        android:textSize="21sp"
+
+        />
+</LinearLayout>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="horizontal"
+       android:id="@+id/attxtviewtime"
+       android:weightSum="2"
+android:layout_alignParentEnd="true"
+       android:layout_marginTop="12dp"
+       android:layout_below="@id/amountpaidtxtview">
+       <TextView
+
+           android:fontFamily="@font/open_sans"
+
+           android:layout_marginStart="16dp"
+android:layout_weight="1"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="On:"
+           />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="2019/08/25"
+
+           android:id="@+id/date_crt"
+
+
+           android:layout_marginEnd="16dp"
+           android:layout_below="@id/amt_crnt"
+           android:textColor="@color/md_grey_700"
+           android:fontFamily="sans-serif-condensed"
+           android:textSize="17sp"
+           android:layout_marginStart="16dp"
+
+           />
+   </LinearLayout>
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/tridcrnt"
+    android:weightSum="2"
+    android:layout_marginTop="20dp"
+
+    android:layout_below="@id/attxtviewtime">
+    <TextView
+
+        android:fontFamily="@font/open_sans"
+        android:layout_marginStart="16dp"
+        android:layout_toStartOf="@id/amt_crnt"
+android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TR Id:" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/lay2status"
+        android:layout_below="@id/date_crt"
+        android:layout_toEndOf="@id/amountpaidtxtview"
+        android:layout_marginStart="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Z201908187656925"
+
+            android:id="@+id/trno_crt"
+
+            android:textColor="@color/md_grey_800"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="17sp"
+            />
+
+        <ImageView
+            android:id="@+id/copy_tr_img"
+            android:clickable="true"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:focusable="true"
+            android:contentDescription="Copy to clipboard"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_content_copy_grey_500_24dp"
+            android:layout_width="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            />
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/linecrnt8"
+        android:layout_marginTop="18dp"
+        android:layout_below="@id/tridcrnt"
+        android:background="@color/md_black_1000"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:id="@+id/crnt_staustitle"
+        android:fontFamily="@font/open_sans"
+        android:textStyle="bold"
+
+        android:layout_marginTop="30dp"
+        android:drawableTint="@color/md_amber_800"
+        android:drawablePadding="10dp"
+        android:textAllCaps="true"
+        android:layout_below="@id/linecrnt8"
+        android:drawableStart="@drawable/ic_info_outline_black_24dp"
+
+        android:text="Awaiting confirmation of the payment"
+        android:textColor="@color/md_amber_800"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/crnt_stausdesc"
+        android:layout_below="@id/crnt_staustitle"
+        android:layout_width="match_parent"
+        android:drawablePadding="8dp"
+        android:drawableTint="@color/md_grey_850"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+
+
+        android:text="Please wait while we are verifying your payment "/>
+    <com.facebook.ads.NativeAdLayout
+        android:id="@+id/native_ad_crntstatus"
+        android:layout_width="match_parent"
+        android:layout_below="@id/crnt_stausdesc"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="14dp"/>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/native_ad_crntstatus"
+        app:cardElevation="0dp"
+        android:id="@+id/cardofpaycrntt"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        app:cardCornerRadius="4dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:contentPadding="10dp"
+        app:strokeColor="@color/md_black_1000"
+        app:strokeWidth="1.5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/titlepaymentinfocrnt"
+                android:text="Your payout details:"
+                android:fontFamily="@font/open_sans"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:layout_below="@id/titlepaymentinfocrnt"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="13dp"
+                android:weightSum="2">
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="51dp"
+                    android:layout_height="51dp"
+
+
+                    app:cardElevation="0dp"
+                    android:layout_marginEnd="18dp"
+                    app:cardCornerRadius="18dp"
+
+                    android:id="@+id/paylogocrntparent"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/paylogocrnt"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/upiic"/>
+                </com.google.android.material.card.MaterialCardView>
+                <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginStart="18dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:textSize="14sp"
+
+                    android:textColor="@color/md_grey_900"
+                    android:fontFamily="@font/open_sans"
+                    android:id="@+id/crntpaymentacname"
+                    android:textAllCaps="true"
+                    android:layout_gravity="center"
+                    android:text="Paytm Account"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+
+
+
+                    android:background="@color/md_grey_700"
+                    android:layout_below="@id/crntpaymentacname"/>
+                    <LinearLayout
+                        android:layout_height="26dp"
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="26dp"
+
+                            android:textAlignment="center"
+                            android:fontFamily="@font/open_sans"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"
+                            android:text="linked to:  "/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="26dp"
+                            android:textSize="14sp"
+                            android:id="@+id/crntpaymentdetails"
+                            android:textColor="@color/md_grey_900"
+                            android:fontFamily="@font/open_sans"
+
+                            android:textAllCaps="true"
+                            android:layout_gravity="center"
+                            android:text="9874561230"/>
+                    </LinearLayout>
+
+            </LinearLayout>
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/cardofpaycrntt"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="38dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
+        android:layout_marginTop="29dp"
+        android:id="@+id/btnrequestcrnt"
+        app:icon="@drawable/ic_navigate_next_black_24dp"
+        android:textAlignment="viewStart"
+        app:iconGravity="end"
+        android:paddingStart="28dp"
+        android:text="REQUEST PAYMENT"
+        />
+
+
+
+
+
+</RelativeLayout>
+
+
+</ScrollView>
+<ProgressBar
+android:layout_width="wrap_content"
+android:id="@+id/progrcrnt"
+android:layout_height="wrap_content"
+android:visibility="visible"
+android:layout_centerInParent="true"/>
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:gravity="center_vertical"
+android:id="@+id/noreqslay"
+android:visibility="invisible"
+android:layout_centerInParent="true">
+
+<ImageView
+    android:id="@+id/imageViewerrorcrnt"
+    android:layout_width="120dp"
+    android:layout_gravity="center"
+    android:src="@drawable/ic_hourglass_empty_black_24dp"
+    android:layout_height="120dp"
+    />
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+
+    android:id="@+id/txtviewcrnt"
+    android:layout_marginTop="14dp"
+    android:textColor="#AFAEAE"
+    android:text="You have not placed any \n payment request yet"/>
+</LinearLayout>
+    </RelativeLayout>

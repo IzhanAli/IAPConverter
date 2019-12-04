@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ConversionActivity"
+    >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_marginStart="24dp"
+android:layout_marginEnd="24dp"
+    android:layout_marginTop="80dp"
+    android:text="@string/select_amount"
+    android:textColor="@color/md_black_1000"
+    android:textAlignment="center"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    android:fontFamily="@font/open_sans"
+    android:layout_height="wrap_content" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:chipSpacingHorizontal="20dp"
+        app:chipSpacingVertical="10dp"
+        android:layout_marginStart="16dp"
+        android:id="@+id/chips"
+        android:layout_marginEnd="16dp"
+        app:singleSelection="true"
+        android:layout_marginTop="34dp">
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:text="@string/rs30"
+            android:id="@+id/c30"
+            android:checkable="true"
+            app:chipSurfaceColor="@color/colorAccent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:text="@string/rs50"
+            android:id="@+id/c50"
+
+            android:checkable="true"
+            app:chipSurfaceColor="@color/colorAccent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:text="@string/rs100"
+            android:id="@+id/c100"
+
+            android:checkable="true"
+            app:chipSurfaceColor="@color/colorAccent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:text="@string/rs150"
+            android:id="@+id/c150"
+
+            android:checkable="true"
+            app:chipSurfaceColor="@color/colorAccent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:text="@string/rs200"
+            android:id="@+id/c200"
+
+            android:checkable="true"
+            app:chipSurfaceColor="@color/colorAccent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:text="@string/rs300"
+            android:id="@+id/c300"
+
+            android:checkable="true"
+            app:chipSurfaceColor="@color/colorAccent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:text="@string/rs400"
+            android:id="@+id/c400"
+
+            android:checkable="true"
+            app:chipSurfaceColor="@color/colorAccent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:text="@string/rs500"
+            android:id="@+id/c500"
+
+            android:checkable="true"
+            app:chipSurfaceColor="@color/colorAccent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:text="@string/rs700"
+            android:id="@+id/c700"
+
+            android:checkable="true"
+            app:chipSurfaceColor="@color/colorAccent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:text="@string/rs1000"
+            android:id="@+id/c1000"
+
+            android:checkable="true"
+            app:chipSurfaceColor="@color/colorAccent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:text="@string/rs5000"
+            android:id="@+id/c5000"
+
+            app:chipSurfaceColor="@color/colorAccent"
+            android:checkable="true"
+
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+android:id="@+id/pay"
+        android:text="Pay" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/open_sans"
+        android:textSize="11sp"
+        android:id="@+id/dsc"
+        android:layout_marginTop="20dp"
+        android:text="*Prices may vary countrywise due to conversion rates, however you will get 60% of the amount you pay"/>
+</LinearLayout>
+
+</RelativeLayout>
+</ScrollView>

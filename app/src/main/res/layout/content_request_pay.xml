@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019. Izhan Ali. Accessing/leaking/modifying source codes is prohibited. Legal action will be taken for if you do such things.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.RequestPay"
+    tools:showIn="@layout/activity_request_pay">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tlp"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/md_grey_900"
+        android:textAlignment="center"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:text="If it has been more than 20 days and you haven't received your payment you can contact us here:"
+        android:fontFamily="@font/open_sans"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+
+        app:errorEnabled="true"
+        app:hintEnabled="true"
+        android:id="@+id/reqpay_lay"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:hint="TR Id"
+        app:helperText="Copy the Transaction Reference Id from 'Recent Conversion' and paste it here"
+
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/reqpay_txt"
+            android:inputType="text"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/btnsub"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_centerVertical="true"
+        android:text="Submit"
+        android:textSize="15sp"
+        />
+
+
+</RelativeLayout>

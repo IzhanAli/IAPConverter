@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019. Izhan Ali. Accessing/leaking/modifying source codes is prohibited. Legal action will be taken for if you do such things.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.HelpActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarl"
+        app:title="Help"
+        app:titleTextColor="@color/md_white_1000"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/colorPrimary"/>
+
+
+
+    <ScrollView
+        android:layout_below="@id/toolbarl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mainlayhelp"
+       >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/activity_horizontal_margin">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="13sp"
+                android:paddingStart="8dp"
+                android:fontFamily="@font/open_sans"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:textColor="@color/md_grey_850"
+                android:text="@string/help_main"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="13sp"
+                android:paddingStart="8dp"
+                android:fontFamily="@font/open_sans"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:textColor="@color/md_black_1000"
+                android:text="@string/help_sub"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:textColor="@color/md_grey_850"
+                android:text="@string/help_chrgsq"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="12sp"
+                android:fontFamily="@font/open_sans"
+                android:paddingStart="8dp"
+                android:layout_marginTop="9dp"
+                android:textColor="@color/md_grey_850"
+                android:text="@string/help_chrgsan"
+/>
+            <TextView
+            android:layout_width="wrap_content"
+            android:text="FAQ's:"
+                android:paddingStart="8dp"
+                android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_black_1000"
+            android:fontFamily="@font/open_sans"
+            style="@style/TextAppearance.MaterialComponents.Body1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:layout_marginTop="12dp"
+                android:textSize="14sp"
+
+
+                android:textColor="@color/md_black_1000"
+                android:text="@string/help_oneq"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="normal"
+                android:paddingStart="8dp"
+                android:layout_marginTop="6dp"
+                android:textSize="14sp"
+                android:textColor="@color/md_grey_800"
+                android:text="@string/help_onean"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:layout_marginTop="24dp"
+                android:textSize="14sp"
+
+
+                android:textColor="@color/md_black_1000"
+                android:text="@string/help_twoq"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="normal"
+                android:paddingStart="8dp"
+                android:layout_marginTop="6dp"
+                android:textSize="14sp"
+                android:textColor="@color/md_grey_800"
+                android:text="@string/help_twoan"
+
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:layout_marginTop="24dp"
+                android:textSize="14sp"
+
+
+                android:textColor="@color/md_black_1000"
+                android:text="@string/help_requestq"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="normal"
+                android:paddingStart="8dp"
+                android:layout_marginTop="6dp"
+                android:textSize="14sp"
+                android:textColor="@color/md_grey_800"
+                android:text="@string/help_requestan"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:layout_marginTop="24dp"
+                android:textSize="14sp"
+
+
+                android:textColor="@color/md_black_1000"
+                android:text="@string/help_paymentq"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="normal"
+                android:paddingStart="8dp"
+                android:layout_marginTop="6dp"
+                android:textSize="14sp"
+                android:textColor="@color/md_grey_800"
+                android:text="@string/help_paymentan"
+
+                />
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
+            android:textStyle="bold"
+            android:paddingStart="8dp"
+            android:layout_marginTop="24dp"
+            android:textSize="14sp"
+
+
+            android:textColor="@color/md_black_1000"
+            android:text="@string/help_amtnotq"
+
+
+            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="normal"
+                android:paddingStart="8dp"
+                android:layout_marginTop="6dp"
+                android:textSize="14sp"
+                android:textColor="@color/md_grey_800"
+                android:text="@string/help_amtnotan"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:layout_marginTop="24dp"
+                android:textSize="14sp"
+
+
+                android:textColor="@color/md_black_1000"
+                android:text="@string/help_payoutq"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="normal"
+                android:paddingStart="8dp"
+                android:layout_marginTop="6dp"
+                android:textSize="14sp"
+                android:textColor="@color/md_grey_800"
+                android:text="@string/help_payoutan"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:layout_marginTop="24dp"
+                android:textSize="14sp"
+
+
+                android:textColor="@color/md_black_1000"
+                android:text="@string/help_emailq"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="normal"
+                android:paddingStart="8dp"
+                android:layout_marginTop="6dp"
+                android:textSize="14sp"
+                android:textColor="@color/md_grey_800"
+                android:text="@string/help_emailan"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="bold"
+               android:textAlignment="center"
+                android:layout_marginTop="36dp"
+                android:textSize="16sp"
+
+                android:textColor="@color/md_grey_900"
+                android:text="Need anything else?"
+
+/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="220dp"
+                app:strokeColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="48dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:text="Contact us"
+                android:id="@+id/contbtn"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
