@@ -62,14 +62,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:id="@+id/onlinetxt"
-                    android:fontFamily="@font/open_sans"
+                    android:fontFamily="sans-serif-condensed-medium"
                     android:paddingStart="8dp"
-                    android:text="string /info_main"
+                    android:text="Greetings from the Devs "
                     android:textAlignment="center"
                     android:textColor="@color/md_red_500"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:visibility="invisible"
-                    android:textStyle="normal"
+                    android:textStyle="bold"
 
 
                     />

@@ -7,6 +7,8 @@ package com.izhandroid.opinionrewardsconverter.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -67,9 +69,11 @@ public class MainActivity extends AppCompatActivity {
     Drawer result;
     Toolbar toolbar;
     FirebaseAuth auth;
+    Integer vcode = 1;
+    
     FirebaseDatabase database;
     FirebaseUser user;
-    String usernames;
+    String usernames, forced;
     SharedPreferences.Editor editor;
     SharedPreferences pref;
     DatabaseReference databaseReferencename;
@@ -268,8 +272,8 @@ CoordinatorLayout coordinatorLayout;
 
                                 //intent = new Intent(MainActivity.this, AdvancedActivity.class);
                             } else if (drawerItem.getIdentifier() == 6) {
-                                Toast.makeText(MainActivity.this, "Hel", Toast.LENGTH_SHORT).show();
-                                //intent = new Intent(MainActivity.this, MainActivity.class);
+
+                                intent = new Intent(MainActivity.this, HelpActivity.class);
                             } else if (drawerItem.getIdentifier() == 7) {
 
                                 new AlertDialog.Builder(MainActivity.this)
@@ -449,8 +453,7 @@ CoordinatorLayout coordinatorLayout;
         TextView ot;
         ot = findViewById(R.id.onlinetxt);
 
-        final int[] vcode = {0};
-        final String[] forced = new String[1];
+        
         database = FirebaseDatabase.getInstance();
         DatabaseReference first = database.getReference("update");
         first.addValueEventListener(new ValueEventListener() {
@@ -465,11 +468,17 @@ CoordinatorLayout coordinatorLayout;
                    ot.setVisibility(View.GONE);
                }else {
                    ot.setVisibility(View.VISIBLE);
+                   ot.setText(note);
                }
-               vcode[0] = Integer.valueOf(vcodes);
-               forced[0] = force;
+
+
+               forced = force;
+
+               checkupdate(vcode, Integer.valueOf(vcodes));
 
             }
+
+
 
             @Override
             public void onCancelled(DatabaseError error) {
@@ -479,47 +488,62 @@ CoordinatorLayout coordinatorLayout;
         });
 
 
-            final int versionCode = BuildConfig.VERSION_CODE;
 
 
-            if (versionCode < vcode[0]) {
-                if (forced[0].contains("yes")){
-
-                    forcedialog().show();
-
-                }else{
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setCancelable(true);
-                    builder.setTitle("New Update Available!");
-                    builder.setMessage("Please install the latest version from Play Store \nUpdate now for better experience");
-                    builder.setIcon(android.R.drawable.ic_dialog_alert);
+    }
+    private void checkupdate( int vcode, int versionCodes ) {
+        try {
 
 
-                    builder.setPositiveButton("Install", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse("http://play.google.com/store/apps/details?id=" + MainActivity.this.getPackageName())));
-
-                        }
-                    });
-
-                    builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    });
+            PackageInfo info = MainActivity.this.getPackageManager().getPackageInfo(MainActivity.this.getPackageName(), PackageManager.GET_ACTIVITIES);
+            vcode = info.versionCode;
+        } catch (PackageManager.NameNotFoundException e)
+        {
+            e.printStackTrace();
+        }
 
 
 
-                }
+
+        if (vcode < versionCodes) {
+            if (forced.contains("yes")){
+
+                forcedialog().show();
+
+            }else{
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setCancelable(true);
+                builder.setTitle("New Update Available!");
+                builder.setMessage("Please install the latest version from Play Store \nUpdate now for better app experience");
+                builder.setIcon(android.R.drawable.ic_dialog_alert);
+
+
+                builder.setPositiveButton("Install", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("http://play.google.com/store/apps/details?id=" + MainActivity.this.getPackageName())));
+
+                    }
+                });
+
+                builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                builder.show();
+
+
+
+            }
 
         }
     }
-
     private AlertDialog.Builder forcedialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(false);

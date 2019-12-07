@@ -142,6 +142,7 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
     SharedPreferences.Editor editor;
     DatabaseReference referencesr;
 
+    Boolean purchasestate = false;
     CoordinatorLayout coordinatorLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +182,7 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
 
         /**Dialog**/
         fullscreenDialog = new Dialog(this, R.style.DialogFullscreen);
+        fullscreenDialog.setCancelable(false);
         fullscreenDialog.setContentView(R.layout.confirm_pay);
         pay = fullscreenDialog.findViewById(R.id.nameofpay);
         paydetails = fullscreenDialog.findViewById(R.id.idofpay);
@@ -207,7 +209,13 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
             startActivity(new Intent(this, Registration.class));
         }
         editor = pref.edit();
-        if (pref.getBoolean("request not pending", false)) {
+
+        /*if (pref.getBoolean("request pending", true)) {
+            showConfirmDialog();
+            FancyToast.makeText(activity, "You have a payout request pending!", Toast.LENGTH_LONG, FancyToast.WARNING, false).show();
+        }*/
+
+        if(pref.getInt("req submitted", 0)==1){
             showConfirmDialog();
             FancyToast.makeText(activity, "You have a payout request pending!", Toast.LENGTH_LONG, FancyToast.WARNING, false).show();
         }
@@ -249,7 +257,7 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         });
         Toolbar toolbar_full_screen_dialog = fullscreenDialog.findViewById(R.id.toolbar_full_screen_dialog);
         toolbar_full_screen_dialog.setNavigationOnClickListener(v -> {
-            editor.putBoolean("request not pending", false).apply();
+            editor.putInt("req submitted", 1).apply();
             editor.commit();
             fullscreenDialog.dismiss();
             finish();
@@ -413,6 +421,7 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
                                                         FancyToast.makeText(ConversionActivity.this, "Please select amount first", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
 
 
+
                                                     }
 
                                                 }
@@ -495,6 +504,7 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         int nana = purchase.getPurchaseState();
         long mama = purchase.getPurchaseTime();
 
+        purchasestate = true;
         devpayload = purchase.getDeveloperPayload();
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
             // Grant entitlement to the user.
@@ -560,7 +570,7 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         }
 
 
-        editor.putBoolean("request not pending", false).apply();
+
 
     }
 
@@ -619,7 +629,8 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
 
-
+                    editor.putInt("req submitted", 1).apply();
+                    editor.commit();
                     showConfirmDialog();
                 } else {
                     Toast.makeText(activity, "An error occured", Toast.LENGTH_SHORT).show();
@@ -720,17 +731,20 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     editor = pref.edit();
-                    editor.putBoolean("request not pending", true).apply();
+                    editor.putInt("req submitted", 0).apply();
                     editor.commit();
 
+                    purchasestate = false;
                     finish();
 
                     FancyToast.makeText(ConversionActivity.this, "Request Placed Successfully! You can track payment from Recent Conversion", Toast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
 
 
                 } else {
+
+                    purchasestate = true;
                     finish();
-                    editor.putBoolean("request not pending", false).apply();
+                    editor.putInt("req submitted", 1).apply();
                     editor.commit();
                     Toast.makeText(activity, "An error occured please retry", Toast.LENGTH_SHORT).show();
                 }
@@ -753,13 +767,13 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
                 paydetails.setText("linked to: " + paydet);
                 if (payname != null) {
                     if (payname.contains("Paytm")) {
-                        Picasso.get().load("https://imgur.com/a/VezGLSg.png").into(paylogo);
+                        Picasso.get().load("https://i.imgur.com/wJzCkeR.png").into(paylogo);
                     } else if (payname.contains("PayPal")) {
-                        Picasso.get().load("https://imgur.com/a/zIQR50P.png").into(paylogo);
+                        Picasso.get().load("https://i.imgur.com/UWdmZGM.png").into(paylogo);
                     } else if (payname.contains("Google Pay")) {
-                        Picasso.get().load("https://imgur.com/a/4tudtvH.png").into(paylogo);
+                        Picasso.get().load("https://i.imgur.com/uNIHear.png").into(paylogo);
                     } else if (payname.contains("PhonePe")) {
-                        Picasso.get().load("https://imgur.com/a/aMfVZ9V.png").into(paylogo);
+                        Picasso.get().load("https://i.imgur.com/LMLfd0x.png").into(paylogo);
                     } else if (payname.contains("UPI")) {
                         Picasso.get().load(R.drawable.upiic).into(paylogo);
                     }
