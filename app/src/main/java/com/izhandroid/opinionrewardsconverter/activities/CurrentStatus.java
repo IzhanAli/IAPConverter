@@ -115,6 +115,15 @@ public class CurrentStatus extends AppCompatActivity {
             }
         });
 
+        btnreq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(CurrentStatus.this, RequestPay.class);
+                startActivity(i);
+
+            }
+        });
+
         checkexist();
 
         if(!isOnline()){
@@ -314,13 +323,13 @@ copyIv.setOnLongClickListener(new View.OnLongClickListener() {
                paydetailtv.setText(paydet);
                if (payname != null) {
                    if (payname.contains("Paytm")) {
-                       Picasso.get().load("https://imgur.com/a/VezGLSg.png").into(payiconiv);
+                       Picasso.get().load("https://i.imgur.com/wJzCkeR.png").into(payiconiv);
                    } else if (payname.contains("PayPal")) {
-                       Picasso.get().load("https://imgur.com/a/zIQR50P.png").into(payiconiv);
+                       Picasso.get().load("https://i.imgur.com/UWdmZGM.png").into(payiconiv);
                    } else if (payname.contains("Google Pay")) {
-                       Picasso.get().load("https://imgur.com/a/4tudtvH.png").into(payiconiv);
+                       Picasso.get().load("https://i.imgur.com/uNIHear.png").into(payiconiv);
                    } else if (payname.contains("PhonePe")) {
-                       Picasso.get().load("https://imgur.com/a/aMfVZ9V.png").into(payiconiv);
+                       Picasso.get().load("https://i.imgur.com/LMLfd0x.png").into(payiconiv);
                    } else if (payname.contains("UPI")) {
                        Picasso.get().load(R.drawable.upiic).into(payiconiv);
                    }
