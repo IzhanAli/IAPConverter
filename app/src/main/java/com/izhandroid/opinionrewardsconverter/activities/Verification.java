@@ -221,13 +221,14 @@ login.setVisibility(View.INVISIBLE);
     }
 
     private void createProfile(){
+        setResult(1);
 finish();
         Intent intent = new Intent(Verification.this, Profile.class);
 
         intent.putExtra("country",countrystring);
         intent.putExtra("name",username);
         intent.putExtra("email", useremail);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
         startActivity(intent);
     }
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -259,6 +260,7 @@ finish();
                                                             createProfile();
 
                                                         }else{
+                                                            setResult(1);
                                                             finish();
                                                             Intent intent = new Intent(Verification.this, MainActivity.class);
 
@@ -306,5 +308,11 @@ finish();
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        setResult(1);
+        super.onDestroy();
     }
 }

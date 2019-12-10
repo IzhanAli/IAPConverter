@@ -22,6 +22,7 @@ import com.izhandroid.opinionrewardsconverter.utils.Constants;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
@@ -185,7 +186,7 @@ private void allok (){
             intent.putExtra("country",country);
             intent.putExtra("name",name);
             intent.putExtra("email", email);
-            startActivity(intent);
+            startActivityForResult(intent,2);
 
 
         }else {
@@ -194,7 +195,19 @@ private void allok (){
         }
 
 }
-public boolean isValidEmail(){
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1) {
+            finish();
+        }
+
+
+    }
+
+    public boolean isValidEmail(){
     if(emailbox.getText().toString().trim().matches(emailPattern) && emailbox.length() >= 4){
         emaillay.setError(null);
 

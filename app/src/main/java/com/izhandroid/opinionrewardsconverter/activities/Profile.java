@@ -326,6 +326,7 @@ public class Profile extends AppCompatActivity {
                     Intent i = new Intent(Profile.this, MainActivity.class);
                     startActivity(i);
 
+
                 } else {
                     Toast.makeText(Profile.this, "A problem occurred. Retry later", Toast.LENGTH_SHORT).show();
                     Log.d("db", task.getException().getMessage());
