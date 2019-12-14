@@ -239,7 +239,7 @@ public class PaymentDetails extends AppCompatActivity {
 
 
     }
-    public void saveinfo() {
+    private void saveinfo() {
 
 
 
@@ -257,9 +257,10 @@ public class PaymentDetails extends AppCompatActivity {
                             editor.commit();
                             FancyToast.makeText(PaymentDetails.this, "Details saved!", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false);
 
-                            finish();
 
+                            finish();
                             Intent i= new Intent(PaymentDetails.this, ConversionActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(i);
 
                         }

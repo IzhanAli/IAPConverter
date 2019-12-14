@@ -45,13 +45,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -142,8 +149,10 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
     SharedPreferences.Editor editor;
     DatabaseReference referencesr;
 
+    private InterstitialAd mInterstitialAd;
     Boolean purchasestate = false;
     CoordinatorLayout coordinatorLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,7 +166,9 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         coordinatorLayout = findViewById(R.id.convoparentlay);
         purchsp = getSharedPreferences(PREFPURCH, MODE_PRIVATE);
         orderid = "n";
-
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-6711729529292720/2541294823");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         fetchSrno();
 
         dc = findViewById(R.id.dsc);
@@ -178,6 +189,8 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             progressDialog.create();
         }
+
+
         queue = Volley.newRequestQueue(ConversionActivity.this);
 
         /**Dialog**/
@@ -195,9 +208,9 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         pref = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         String usercountry = pref.getString("country", null);
 
-        if (!usercountry.equals("India")) {
-            dc.setText("You get ~60% of the amount you pay");
-        }
+
+        dc.setText("You get ~60% of the amount you pay");
+
 
         purchaseitem = "x";
 
@@ -210,15 +223,11 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         }
         editor = pref.edit();
 
-        /*if (pref.getBoolean("request pending", true)) {
+
+        /*if(pref.getInt("pending", 0)==1){
             showConfirmDialog();
             FancyToast.makeText(activity, "You have a payout request pending!", Toast.LENGTH_LONG, FancyToast.WARNING, false).show();
         }*/
-
-        if(pref.getInt("req submitted", 0)==1){
-            showConfirmDialog();
-            FancyToast.makeText(activity, "You have a payout request pending!", Toast.LENGTH_LONG, FancyToast.WARNING, false).show();
-        }
 
         ExtendedFloatingActionButton fab = findViewById(R.id.extendedFloatingActionButtonconv);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -243,27 +252,34 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         placerequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(isOnline()) {
-                    postreqsDetail(payname, paydet, emailuser);
-                    crntdbwrite();
-
-                }else{
-                    FancyToast.makeText(activity, "No Internet Available!", FancyToast.LENGTH_SHORT, FancyToast.ERROR,false).show();
-
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    fullscreenDialog.dismiss();
+                    finish();
                 }
-
             }
         });
         Toolbar toolbar_full_screen_dialog = fullscreenDialog.findViewById(R.id.toolbar_full_screen_dialog);
         toolbar_full_screen_dialog.setNavigationOnClickListener(v -> {
-            editor.putInt("req submitted", 1).apply();
-            editor.commit();
-            fullscreenDialog.dismiss();
-            finish();
 
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                fullscreenDialog.dismiss();
+                finish();
+            }
         });
 
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                fullscreenDialog.dismiss();
+                finish();
+                super.onAdClosed();
+            }
+
+        });
 
         chipGroup = findViewById(R.id.chips);
         mBuyButton = findViewById(R.id.pay);
@@ -276,7 +292,27 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
 
         //Fetching Data from Fb db
         retriveData();
+        if (mBuyButton.getText() == "Continue") {
+            mBuyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
+                    if (pref.getInt("pending", 0) == 1) {
+                        writelistdb(orderid, 0, "timeout", purchasetoken, 0);
+                    }
+                    if (pref.getInt("pending", 0) == 2) {
+                        postPaymentDetail(orderid, 0, "timeout", purchasetoken, 0, devpayload);
+                    }
+                    if (pref.getInt("pending", 0) == 3) {
+                        postreqsDetail(payname, paydet, emailuser);
+                    }
+                    if (pref.getInt("pending", 0) == 4) {
+                        crntdbwrite();
+
+                    }
+                }
+            });
+        }
         final List<String> skuList = new ArrayList<>();
 
         skuList.add(r30);
@@ -354,11 +390,11 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
                                                 public void onClick(View view) {
                                                     if (anyonechecked()) {
 
-                                                        ProgressDialog progressDialog = Constants.DialogUtils.showprgdialog(activity);
+                                                        ProgressDialog progress = Constants.DialogUtils.showprgdialog(activity);
 
-                                                        if(isOnline()) {
+                                                        if (isOnline()) {
 
-                                                            progressDialog.dismiss();
+                                                            progress.dismiss();
                                                             if (chip30.isChecked()) {
                                                                 BillingFlowParams flowParams = BillingFlowParams.newBuilder().setSkuDetails(skuDetailsList.get(4)).build();
                                                                 mBillingClient.launchBillingFlow(ConversionActivity.this, flowParams);
@@ -412,14 +448,13 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
                                                                 mBillingClient.launchBillingFlow(ConversionActivity.this, flowParams);
                                                                 purchaseitem = skuDetailsList.get(9).getPrice();
                                                             }
-                                                        }else {
-                                                            progressDialog.dismiss();
+                                                        } else {
+                                                            progress.dismiss();
                                                             showSnack(coordinatorLayout, "Unable to connect!");
                                                         }
                                                     } else {
 
                                                         FancyToast.makeText(ConversionActivity.this, "Please select amount first", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
-
 
 
                                                     }
@@ -483,17 +518,41 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
             Log.d(TAG, "User Canceled" + billingResult.getResponseCode());
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
 
-            Toast.makeText(activity, "Hmmm, this is unexpected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "Hmmm, this is unexpected,  please try again later. Error code:7", Toast.LENGTH_SHORT).show();
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.BILLING_UNAVAILABLE) {
 
-            Toast.makeText(activity, "An error occurred. Retry Later", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "An error occurred. Billing API version is not supported for the type requested. Error code:3", Toast.LENGTH_SHORT).show();
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ERROR) {
 
-            FancyToast.makeText(activity, "An error occurred. If persists contact us!", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(activity, "Fatal error occurred during the API action. Contact us if persists ", Toast.LENGTH_SHORT).show();
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.DEVELOPER_ERROR) {
+
+            Toast.makeText(activity, "Invalid arguments provided. Error Code:5", Toast.LENGTH_SHORT).show();
+
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED) {
+
+            Toast.makeText(activity, "This feature is not supported by Google for this device.", Toast.LENGTH_SHORT).show();
+
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_NOT_OWNED) {
+
+            Toast.makeText(activity, "Hmmm, this is unexpected,  please contact us. Error code:8", Toast.LENGTH_SHORT).show();
+
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE) {
+
+            Toast.makeText(activity, "Network connection is down. Please check and retry. Error code:2", Toast.LENGTH_SHORT).show();
+
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.SERVICE_DISCONNECTED) {
+            Toast.makeText(activity, "Play Store service is not connected now - Try again later", Toast.LENGTH_SHORT).show();
+
+
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.SERVICE_TIMEOUT) {
+
+            Toast.makeText(activity, "Connection timed out", Toast.LENGTH_SHORT).show();
+
         } else {
             Log.d(TAG, "Other code" + billingResult.getResponseCode());
             // Handle any other error codes.
-            FancyToast.makeText(ConversionActivity.this, "An unexpected error occurred, Please check connection or retry later", FancyToast.LENGTH_SHORT, FancyToast.CONFUSING, false).show();
+            FancyToast.makeText(ConversionActivity.this, "An unexpected error occurred, Please contact us or retry later. Error Code:"+billingResult.getResponseCode(), FancyToast.LENGTH_SHORT, FancyToast.CONFUSING, false).show();
         }
     }
 
@@ -516,24 +575,17 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
             };*/
 
 
-            /**This method writes in list*/
-            writelistdb();
-            postPaymentDetail(orderid, nana, lala, purchaseitem, nana, devpayload);
+            /**This method writes*/
+            if (isOnline()) {
+                writelistdb(orderid, mama, lala, purchasetoken, nana);
+            } else {
+                FancyToast.makeText(activity, "Unable to connect! Cannot process purchase", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                mBuyButton.setText("Continue");
+                editor.putInt("pending", 1).apply();
+            }
             // Showing Toast message after successfully data submit.
 
 
-            mBuyButton.setText("Continue");
-
-            if (mBuyButton.getText() == "Continue") {
-                mBuyButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-
-                        showConfirmDialog();
-                    }
-                });
-            }
             ConsumeResponseListener listener = new ConsumeResponseListener() {
                 @Override
                 public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
@@ -570,11 +622,9 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         }
 
 
-
-
     }
 
-    private void writelistdb() {
+    private void writelistdb(String purorderid, long purdate, String pursku, String purtoken, int purstate) {
         /**This method writes in list**/
 
         progressDialog.show();
@@ -629,12 +679,15 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
 
-                    editor.putInt("req submitted", 1).apply();
-                    editor.commit();
-                    showConfirmDialog();
+
+                    postPaymentDetail(purorderid, purdate, pursku, purtoken, purstate, devpayload);
+                    Toast.makeText(activity, "Please wait...", Toast.LENGTH_SHORT).show();
+                    //showConfirmDialog();
                 } else {
-                    Toast.makeText(activity, "An error occured", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "An error occured, please Retry", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
+                    editor.putInt("pending", 1).apply();
+                    mBuyButton.setText("Continue");
                 }
             }
         });
@@ -646,7 +699,7 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         /**Generates transaction id and time and saves it locally**/
 
         trno = null;
-        String[] chars = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "P", "Q", "R", "S", "T", "U", "V", "Z"};
+        String[] chars = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "P", "Q", "R", "S", "T", "U", "V", "Z", "J", "L"};
         String rndm = chars[(int) (Math.random() * 10)];
         Date ddmm = new Date();
         SimpleDateFormat format2 = new SimpleDateFormat("MMyydd");
@@ -691,10 +744,9 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
 
         datetime = month + "/" + date + "/" + year + "  " + hr + ":" + min;
         // Z080454111057
-        savepurchase();
+
         /**This method saves date, item, trid locally**/
-
-
+        savepurchase();
     }
 
     private void savepurchase() {
@@ -709,6 +761,8 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
     }
 
     private void crntdbwrite() {
+
+
         /**This method fetches local DATE, TRID, ITEM and saves in current db**/
 
         String sppi = purchsp.getString(itemPREFPURCH, "");
@@ -731,25 +785,29 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     editor = pref.edit();
-                    editor.putInt("req submitted", 0).apply();
+                    editor.putInt("pending", 0).apply();
                     editor.commit();
 
                     purchasestate = false;
-                    finish();
+
 
                     FancyToast.makeText(ConversionActivity.this, "Request Placed Successfully! You can track payment from Recent Conversion", Toast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
-
+                    showConfirmDialog();
 
                 } else {
 
                     purchasestate = true;
-                    finish();
-                    editor.putInt("req submitted", 1).apply();
-                    editor.commit();
+
+                    progressDialog.dismiss();
+
+
                     Toast.makeText(activity, "An error occured please retry", Toast.LENGTH_SHORT).show();
+                    editor.putInt("pending", 4).apply();
+                    editor.commit();
                 }
             }
         });
+
 
     }
 
@@ -881,13 +939,16 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
                     public void onResponse(String response) {
                         Log.d("TAG", "Response: " + response);
                         if (response.length() > 0) {
+                            postreqsDetail(payname, paydet, emailuser);
 
-                            Toast.makeText(activity, "Success!", Toast.LENGTH_SHORT).show();
                         } else {
 
-
+                            progressDialog.dismiss();
+                            editor.putInt("pending", 2).apply();
+                            Toast.makeText(activity, "An error occured", Toast.LENGTH_SHORT).show();
+                            mBuyButton.setText("Continue");
                         }
-                        progressDialog.dismiss();
+
                     }
                 }, new Response.ErrorListener() {
 
@@ -930,11 +991,14 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
                         Log.d("TAG", "Response: " + response);
                         if (response.length() > 0) {
 
+                            Toast.makeText(activity, "Saving purchase...", Toast.LENGTH_SHORT).show();
+                            crntdbwrite();
                         } else {
-
-
+                            editor.putInt("pending", 3).apply();
+                            mBuyButton.setText("Continue");
+                            fullscreenDialog.dismiss();
                         }
-                        progressDialog.dismiss();
+
                     }
                 }, new Response.ErrorListener() {
 
