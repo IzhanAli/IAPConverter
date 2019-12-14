@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay"
         app:navigationIcon="@drawable/ic_close_white_24dp"
         app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:title="Confirm Payout" />
+        app:title="Verify Payout Details" />
 
     <TextView
         android:id="@+id/pricetextView"
@@ -85,7 +85,18 @@
         android:gravity="center"
         android:orientation="vertical"
         android:layout_below="@id/payinfotxt">
+        <TextView
 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="18dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="You wont be able to change or edit this till your next conversion"
+            android:textAlignment="center"
+            android:textColor="@color/md_grey_850" />
         <com.google.android.material.card.MaterialCardView
             android:layout_width="73dp"
             android:layout_height="73dp"
@@ -165,6 +176,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="28dp"
-        android:text="Place Request" />
+        android:text="Confirm" />
 
 </RelativeLayout>

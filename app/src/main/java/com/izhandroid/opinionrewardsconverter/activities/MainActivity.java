@@ -27,6 +27,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
@@ -57,7 +61,8 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
-
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import static com.izhandroid.opinionrewardsconverter.utils.Constants.MY_PREFS_NAME;
 import static com.izhandroid.opinionrewardsconverter.utils.Constants.dbuemail;
 import static com.izhandroid.opinionrewardsconverter.utils.Constants.dbuser;
@@ -70,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     FirebaseAuth auth;
     Integer vcode = 1;
-    
+    String revokemsg =null;
     FirebaseDatabase database;
     FirebaseUser user;
     String usernames, forced;
@@ -82,12 +87,22 @@ CoordinatorLayout coordinatorLayout;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         if (auth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, Registration.class));
         }
+
+       AdView mAdView = findViewById(R.id.mainadView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         //drawer
         pref = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         editor = pref.edit();
@@ -239,12 +254,29 @@ CoordinatorLayout coordinatorLayout;
                             } else if (drawerItem.getIdentifier() == 2) {
 
                                 //Convert
-                                if (pref.getBoolean("payment submitted", true)) {
-                                    Intent i = new Intent(MainActivity.this, ConversionActivity.class);
-                                    startActivity(i);
-                                } else {
-                                    Intent i = new Intent(MainActivity.this, PaymentDetails.class);
-                                    startActivity(i);
+                                if(revokemsg==null) {
+                                    Toast.makeText(MainActivity.this, "loading data from the server, please wait..", Toast.LENGTH_SHORT).show();
+                                }else if(revokemsg.equals("*")){
+                                    if (pref.getBoolean("payment submitted", true)) {
+                                         intent = new Intent(MainActivity.this, ConversionActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                         intent = new Intent(MainActivity.this, PaymentDetails.class);
+                                        startActivity(intent);
+                                    }
+
+                                }else {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                    builder.setTitle("Temporarily Unavailable");
+                                    builder.setMessage(revokemsg);
+                                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+                                    builder.create();
+                                    builder.show();
                                 }
                             } else if (drawerItem.getIdentifier() == 3) {
 
@@ -353,13 +385,33 @@ CoordinatorLayout coordinatorLayout;
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (pref.getBoolean("payment submitted", true)) {
-                    Intent i = new Intent(MainActivity.this, ConversionActivity.class);
-                    startActivity(i);
-                } else {
-                    Intent i = new Intent(MainActivity.this, PaymentDetails.class);
-                    startActivity(i);
-                }
+
+                    if(revokemsg==null) {
+                        Toast.makeText(MainActivity.this, "loading data from the server, please wait..", Toast.LENGTH_SHORT).show();
+                    }else if(revokemsg.equals("*")){
+                        if (pref.getBoolean("payment submitted", true)) {
+                        Intent intent = new Intent(MainActivity.this, ConversionActivity.class);
+                        startActivity(intent);
+                        } else {
+                            Intent i = new Intent(MainActivity.this, PaymentDetails.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(i);
+                        }
+
+                    }else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle("Temporarily Unavailable");
+                        builder.setMessage(revokemsg);
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        builder.create();
+                        builder.show();
+                    }
+
 
             }
         });
@@ -368,9 +420,8 @@ CoordinatorLayout coordinatorLayout;
             @Override
             public void onClick(View view) {
                 if(isOnline()) {
-                    Intent intent = new Intent(MainActivity.this, CurrentStatus.class);
-
-                    startActivity(intent);
+                    Intent i = new Intent(MainActivity.this, CurrentStatus.class);
+                    startActivity(i);
                 }else {
                  showSnack(coordinatorLayout, "No Internet Connection!");
                 }
@@ -464,6 +515,7 @@ CoordinatorLayout coordinatorLayout;
                String vcodes = String.valueOf(dataSnapshot.child("versioncode").getValue(Long.class));
                String force = dataSnapshot.child("force").getValue(String.class);
                String note = dataSnapshot.child("Notice").getValue(String.class);
+               String revoke = dataSnapshot.child("close").getValue(String.class);
                if(note.contains("*")){
                    ot.setVisibility(View.GONE);
                }else {
@@ -472,6 +524,7 @@ CoordinatorLayout coordinatorLayout;
                }
 
 
+               revokemsg=revoke;
                forced = force;
 
                checkupdate(vcode, Integer.valueOf(vcodes));
@@ -519,7 +572,7 @@ CoordinatorLayout coordinatorLayout;
                 builder.setIcon(android.R.drawable.ic_dialog_alert);
 
 
-                builder.setPositiveButton("Install", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Update Now", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

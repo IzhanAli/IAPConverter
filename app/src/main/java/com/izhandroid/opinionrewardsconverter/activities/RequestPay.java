@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,7 +34,7 @@ EditText txttr;
 TextInputLayout txtlay;
 MaterialButton btn;
 String trid, num;
-
+InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +42,25 @@ String trid, num;
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-6711729529292720/9924960825");
+        //TODO ad here
+        //mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                submit();
+                super.onAdClosed();
+            }
+        });
         ExtendedFloatingActionButton fab = findViewById(R.id.extendedFloatingActionButtonreq);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                Intent i = new Intent(RequestPay.this, HelpActivity.class);
+                startActivity(i);
 
             }
         });
@@ -67,7 +84,13 @@ String trid, num;
                    txtlay.setError("Transaction id can't be empty");
                }else {
                    txtlay.setError(null);
-                   submit();
+
+                   if(mInterstitialAd.isLoaded()) {
+                      mInterstitialAd.show();
+
+                   }else {
+                       submit();
+                   }
                }
             }
         });

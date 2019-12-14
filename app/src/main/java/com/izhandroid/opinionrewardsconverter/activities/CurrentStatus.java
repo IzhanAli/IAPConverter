@@ -35,6 +35,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,7 +66,7 @@ public class CurrentStatus extends AppCompatActivity {
     private final String TAG = NativeAd.class.getSimpleName();
 
     String mstatus, amtpaid, date, trid, crnttitle, crntdesc;
-    private TextView mainStatustv, amountPaidtv, datetv, trIdtv, primarytv, secondarytv, paynametv, paydetailtv,txterr;
+    private TextView mainStatustv, amountPaidtv, datetv, trIdtv, primarytv, secondarytv, paynametv, paydetailtv, txterr;
     private ImageView copyIv, payiconiv, imgerr;
     private ProgressBar prg;
     FirebaseAuth auth;
@@ -75,14 +77,14 @@ public class CurrentStatus extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private NativeAdLayout nativeAdLayout;
     private LinearLayout offlineview;
-
+    private InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_status);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        relativeLayout=findViewById(R.id.status_lay1);
+        relativeLayout = findViewById(R.id.status_lay1);
         mainStatustv = findViewById(R.id.crnt_mainstauts);
         amountPaidtv = findViewById(R.id.amt_crnt);
         datetv = findViewById(R.id.date_crt);
@@ -104,6 +106,13 @@ public class CurrentStatus extends AppCompatActivity {
             finish();
             startActivity(new Intent(this, Registration.class));
         }
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-6711729529292720/6400648785");
+        //TODO ad here
+        //mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
         View view = getWindow().getDecorView().getRootView();
         ExtendedFloatingActionButton fab = findViewById(R.id.extendedFloatingActionButtonstatus);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -126,25 +135,19 @@ public class CurrentStatus extends AppCompatActivity {
 
         checkexist();
 
-        if(!isOnline()){
+        if (!isOnline()) {
             Toast.makeText(this, "Turn on the Mobile Data/WiFi to get fresh data", Toast.LENGTH_SHORT).show();
         }
 
 
         AudienceNetworkAds.initialize(this);
-       NativeAdLayout nativeAdLayout = findViewById(R.id.native_ad_crntstatus);
-        NativeAdFb.loadAdNative(this, "895176207533823_895194007532043",nativeAdLayout);
+        NativeAdLayout nativeAdLayout = findViewById(R.id.native_ad_crntstatus);
+        NativeAdFb.loadAdNative(this, "895176207533823_895194007532043", nativeAdLayout);
 
-       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-       clipboardManager=(ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-
-
-
-
+        clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
 
     }
@@ -156,12 +159,21 @@ public class CurrentStatus extends AppCompatActivity {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(dbcrnt)){
+                if (dataSnapshot.hasChild(dbcrnt)) {
                     retriveData();
-                }else{
-                    prg.setVisibility(View.INVISIBLE);
-                    relativeLayout.setVisibility(View.GONE);
-                    offlineview.setVisibility(View.VISIBLE);
+                } else {
+                    if(mInterstitialAd.isLoaded()){
+                        mInterstitialAd.show();
+                        prg.setVisibility(View.INVISIBLE);
+                        relativeLayout.setVisibility(View.GONE);
+                        offlineview.setVisibility(View.VISIBLE);
+
+                    }else {
+                        prg.setVisibility(View.INVISIBLE);
+                        relativeLayout.setVisibility(View.GONE);
+                        offlineview.setVisibility(View.VISIBLE);
+                    }
+
 
                 }
             }
@@ -174,7 +186,7 @@ public class CurrentStatus extends AppCompatActivity {
                 offlineview.setVisibility(View.VISIBLE);
                 txterr.setText("An error occurred. Please check network or try again later");
                 imgerr.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
-                Log.e(TAG,databaseError.getDetails());
+                Log.e(TAG, databaseError.getDetails());
             }
         });
     }
@@ -186,18 +198,26 @@ public class CurrentStatus extends AppCompatActivity {
         reference.child(dbcrnt).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 mstatus = dataSnapshot.child(dbmainsc).getValue(String.class);
-                 amtpaid = dataSnapshot.child(dbamt).getValue(String.class);
-                 date = dataSnapshot.child(dbdatec).getValue(String.class);
-                 trid = dataSnapshot.child(dbtrid).getValue(String.class);
+                mstatus = dataSnapshot.child(dbmainsc).getValue(String.class);
+                amtpaid = dataSnapshot.child(dbamt).getValue(String.class);
+                date = dataSnapshot.child(dbdatec).getValue(String.class);
+                trid = dataSnapshot.child(dbtrid).getValue(String.class);
                 crnttitle = dataSnapshot.child(dbprimary).getValue(String.class);
 
                 crntdesc = dataSnapshot.child(dbsecondary).getValue(String.class);
                 Log.d(TAG, "ok");
-              setTvs();
+                if(mInterstitialAd.isLoaded()){
+                    mInterstitialAd.show();
+                    setTvs();
+                }else{
+                   setTvs();
+
+                }
+
             }
 
             private void setTvs() {
+
 
                 if (mstatus.equals("a")) {
                     mainStatustv.setText("Amount to be credited");
@@ -222,7 +242,7 @@ public class CurrentStatus extends AppCompatActivity {
                     case "done":
                         primarytv.setText("Your payment has been sent");
                         primarytv.setTextColor(getResources().getColor(R.color.md_green_600));
-                        primarytv.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_done_black_24dp),null,null,null);
+                        primarytv.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_done_black_24dp), null, null, null);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             primarytv.getCompoundDrawables()[0].setTint(getResources().getColor(R.color.md_green_600));
                         }
@@ -247,7 +267,7 @@ public class CurrentStatus extends AppCompatActivity {
                         break;
                 }
 
-                switch (crntdesc){
+                switch (crntdesc) {
                     case "a":
                         secondarytv.setText("Please wait while we are verifying your purchase");
                         break;
@@ -293,63 +313,63 @@ public class CurrentStatus extends AppCompatActivity {
                 offlineview.setVisibility(View.VISIBLE);
                 txterr.setText("An error occurred. Please check network or try again later");
                 imgerr.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
-                Log.e(TAG,databaseError.getDetails());
+                Log.e(TAG, databaseError.getDetails());
             }
         });
-copyIv.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        clipData = ClipData.newPlainText("text", trid);
-        clipboardManager.setPrimaryClip(clipData);
-        Toast.makeText(CurrentStatus.this, "Copied Successfully!", Toast.LENGTH_SHORT).show();
-    }
-});
-copyIv.setOnLongClickListener(new View.OnLongClickListener() {
-    @Override
-    public boolean onLongClick(View view) {
-        Toast.makeText(CurrentStatus.this, "Copy Transaction Id to clipboard", Toast.LENGTH_SHORT).show();
-        return false;
-    }
-});
+        copyIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clipData = ClipData.newPlainText("text", trid);
+                clipboardManager.setPrimaryClip(clipData);
+                Toast.makeText(CurrentStatus.this, "Copied Successfully!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        copyIv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(CurrentStatus.this, "Copy Transaction Id to clipboard", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 
 
-       reference.addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               String payname = dataSnapshot.child(dbupaymethod).getValue(String.class);
-               String paydet = dataSnapshot.child(dbupaydetails).getValue(String.class);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String payname = dataSnapshot.child(dbupaymethod).getValue(String.class);
+                String paydet = dataSnapshot.child(dbupaydetails).getValue(String.class);
 
-               paynametv.setText(payname+" ACCOUNT");
-               paydetailtv.setText(paydet);
-               if (payname != null) {
-                   if (payname.contains("Paytm")) {
-                       Picasso.get().load("https://i.imgur.com/wJzCkeR.png").into(payiconiv);
-                   } else if (payname.contains("PayPal")) {
-                       Picasso.get().load("https://i.imgur.com/UWdmZGM.png").into(payiconiv);
-                   } else if (payname.contains("Google Pay")) {
-                       Picasso.get().load("https://i.imgur.com/uNIHear.png").into(payiconiv);
-                   } else if (payname.contains("PhonePe")) {
-                       Picasso.get().load("https://i.imgur.com/LMLfd0x.png").into(payiconiv);
-                   } else if (payname.contains("UPI")) {
-                       Picasso.get().load(R.drawable.upiic).into(payiconiv);
-                   }
-               }else{
-                   Picasso.get().load(R.drawable.ic_error_grey_500_48dp).into(payiconiv);
+                paynametv.setText(payname + " ACCOUNT");
+                paydetailtv.setText(paydet);
+                if (payname != null) {
+                    if (payname.contains("Paytm")) {
+                        Picasso.get().load("https://i.imgur.com/wJzCkeR.png").into(payiconiv);
+                    } else if (payname.contains("PayPal")) {
+                        Picasso.get().load("https://i.imgur.com/UWdmZGM.png").into(payiconiv);
+                    } else if (payname.contains("Google Pay")) {
+                        Picasso.get().load("https://i.imgur.com/uNIHear.png").into(payiconiv);
+                    } else if (payname.contains("PhonePe")) {
+                        Picasso.get().load("https://i.imgur.com/LMLfd0x.png").into(payiconiv);
+                    } else if (payname.contains("UPI")) {
+                        Picasso.get().load(R.drawable.upiic).into(payiconiv);
+                    }
+                } else {
+                    Picasso.get().load(R.drawable.ic_error_grey_500_48dp).into(payiconiv);
 
-               }
-           }
+                }
+            }
 
-           @Override
-           public void onCancelled(@NonNull DatabaseError databaseError) {
-               Toast.makeText(CurrentStatus.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-               prg.setVisibility(View.INVISIBLE);
-               relativeLayout.setVisibility(View.GONE);
-               offlineview.setVisibility(View.VISIBLE);
-               txterr.setText("An error occurred. Please check network or try again later");
-               imgerr.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
-               Log.e(TAG,databaseError.getDetails());
-           }
-       });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(CurrentStatus.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                prg.setVisibility(View.INVISIBLE);
+                relativeLayout.setVisibility(View.GONE);
+                offlineview.setVisibility(View.VISIBLE);
+                txterr.setText("An error occurred. Please check network or try again later");
+                imgerr.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
+                Log.e(TAG, databaseError.getDetails());
+            }
+        });
 
     }
 

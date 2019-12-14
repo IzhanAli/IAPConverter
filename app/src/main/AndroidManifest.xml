@@ -45,6 +45,7 @@
         <activity
             android:name=".activities.Profile"
             android:label="Add Payout Information"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.Verification"
@@ -73,13 +74,16 @@
         </activity>
         <activity
             android:name=".activities.PaymentDetails"
+            android:launchMode="singleInstance"
+
             android:label="Add Payout Method" />
         <activity
             android:name=".activities.EditPay"
+            android:launchMode="singleTop"
             android:label="Edit Payout Details" /> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-6711729529292720~8989824113" />
     </application>
 
 </manifest>

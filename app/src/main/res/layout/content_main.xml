@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
             android:text="Convert"
 
@@ -179,9 +179,26 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_marginTop="22dp"
+            app:contentPadding="4dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_height="wrap_content">
+            <com.google.android.gms.ads.AdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mainadView"
+                android:layout_width="wrap_content"
 
+                android:layout_height="wrap_content"
 
-
+                ads:adSize="SMART_BANNER"
+                ads:adUnitId="ca-app-pub-6711729529292720/9919762404">
+                <!--TODO add here-->
+            </com.google.android.gms.ads.AdView>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
-</ScrollView>
+
+</RelativeLayout>

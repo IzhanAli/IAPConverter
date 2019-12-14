@@ -66,6 +66,7 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+
         ProgressDialog progressDialog = Constants.DialogUtils.showprgdialog(this);
         if(isOnline()){
             progressDialog.dismiss();
@@ -94,12 +95,6 @@ public class Profile extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-
-        if (auth.getCurrentUser() == null) {
-            finish();
-            startActivity(new Intent(this, Registration.class));
-        }
-
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -243,7 +238,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (btnsubmit.getText().toString().contains("Submit")) {
+                if (btnsubmit.getText().toString().equals("Submit")) {
 
 
                     if(anyonechecked()) {
@@ -265,38 +260,12 @@ public class Profile extends AppCompatActivity {
                         paylay.setError("Select payment method");
                         FancyToast.makeText(Profile.this, "Please select Payment Method First!", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
                     }
-                } else {
+                } else if(btnsubmit.getText().toString().equals("Skip this")) {
                     saveprofile();
 
 
 
                 }
-
-                /*if (anyonechecked()) {
-                    if (pay.length() == 0) {
-
-                        if (btnsubmit.getText().toString().contains("Submit")) {
-                            saveinfo();
-                            Intent i= new Intent(Profile.this, MainActivity.class);
-                            startActivity(i);
-                        } else {
-                            FancyToast.makeText(Profile.this, "You can add payment info later!", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
-
-
-                        }
-        /*if(paylay.getHelperText()!=null){
-            paylay.setError(paylay.getHelperText() + " can't be empty");
-        }else{
-            paylay.setError("Select payment method first");
-
-        }
-
-                    } else {
-                        saveinfo();
-                    }
-                } else {
-                    FancyToast.makeText(Profile.this, "Please select Payment Method First!", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-                }*/
 
 
             }
@@ -306,7 +275,7 @@ public class Profile extends AppCompatActivity {
     }
 
 
-    public void saveinfo() {
+    private void saveinfo() {
         payinfo = pay.getText().toString().trim();
         UserInfo userInfo = new UserInfo(username, useremail, paymethod, payinfo, usercountry);
         FirebaseUser user = auth.getCurrentUser();
@@ -322,10 +291,11 @@ public class Profile extends AppCompatActivity {
                     editor.commit();
                     FancyToast.makeText(Profile.this, "Details saved!", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false);
 
-                    finish();
-                    Intent i = new Intent(Profile.this, MainActivity.class);
-                    startActivity(i);
 
+                    Intent i = new Intent(Profile.this, MainActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                    finish();
 
                 } else {
                     Toast.makeText(Profile.this, "A problem occurred. Retry later", Toast.LENGTH_SHORT).show();
@@ -343,7 +313,7 @@ public class Profile extends AppCompatActivity {
 
 
     }
-    public void saveprofile() {
+    private void saveprofile() {
 
         UserInfo userInfo = new UserInfo(username, useremail, paymethod, payinfo, usercountry);
 
