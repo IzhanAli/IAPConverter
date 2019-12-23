@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_margin="@dimen/activity_horizontal_margin">
+
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -43,6 +44,23 @@
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:textColor="@color/md_grey_850"
                 android:text="@string/help_main"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="13sp"
+                android:paddingStart="8dp"
+                android:fontFamily="@font/open_sans"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:textColor="@color/md_grey_850"
+                android:text="By using our app, you agree with our terms and conditions"/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:onClick="tnc"
+                android:layout_gravity="center"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:text="Terms and Conditions"/>
 
             <TextView
                 android:layout_height="wrap_content"

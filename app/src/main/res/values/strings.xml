@@ -2,10 +2,10 @@
     <string name="app_name">Rewards Converter</string>
     <string name="extended_fab_label">Help</string>
     <string name="home">Home</string>
-    <string name="convert">Convert Play Credits</string>
-    <string name="rec">Recent Conversion</string>
+    <string name="convert">Convert</string>
+    <string name="rec">Recent Conversion Status</string>
     <string name="trhistory">Transaction History</string>
-    <string name="req">Request Pay</string>
+    <string name="req">Raise a query</string>
     <string name="about">About</string>
     <string name="contact">Contact us</string>
     <string name="rate">Rate Us!</string>
@@ -24,7 +24,7 @@
     <string name="action_settings">Settings</string>
     <string name="main_title">Convert your Google Opinion Rewards or Play Credits</string>
     <string name="info_main">Go to \'Help\' for information</string>
-    <string name="title_activity_conversion">ConversionActivity</string>
+    <string name="title_activity_conversion">Conversion</string>
     <string name="rs30">₹ 30</string>
     <string name="rs50">₹ 50</string>
     <string name="rs100">₹ 100</string>
@@ -47,7 +47,7 @@
     <string name="paypal">PayPal</string>
     <string name="upi_vpa_id">UPI/VPA Id</string>
     <string name="title_activity_current_status">Recent Conversion Status</string>
-    <string name="title_activity_request_pay">RequestPay</string>
+    <string name="title_activity_request_pay">Raise query</string>
     <string name="help_emailan">To update the email, Go to main screen. Open the navigation menu by clicking on three bars icon. Tap on your name. An option to update email will expand.</string>
     <string name="help_emailq">How to change my email address?</string>
     <string name="help_payoutan">You can change your payout details before placing the request by clicking \'Edit Details\' after making a purchase</string>
@@ -58,12 +58,26 @@
     <string name="help_paymentq">How to track the payment?</string>
     <string name="help_requestan">You will get a confirmation mail on the email used to register. \nIf you didn\'t receive check Recent Conversion Status</string>
     <string name="help_requestq">How to know my request is placed successfully?</string>
-    <string name="help_twoan">1. Go to Main Screen and click on \'Convert\'  \n2. Select the amount you want to convert and click on \'Pay\'  \n3. Review your payment method and make sure offer is applied. You can also use a redeem a code in payment methods   For Google Pay Offer, select Google Pay UPI Id as the payment option  \n4. Complete the Purchase  \n5. Verify your payout details and Place the Request</string>
+    <string name="help_twoan">1. Go to Main Screen and click on \'Convert\'  \n2. Select the amount you want to convert and click on \'Pay\'  \n3. Review your payment method and make sure offer is applied. You can also use a redeem a code in payment methods   For Google Pay Offer, select Google Pay UPI as the payment option  \n4. Complete the Purchase  \n5. Verify your payout details and Submit</string>
     <string name="help_twoq">How to use the redeem Google Play Credits/Offer?</string>
-    <string name="help_onean">1. Go to Main Screen and click on \'Convert\'  \n2. Select the amount you want to convert and click on \'Pay\'  \n3. Make sure \'Google Play Balance\' is selected as your payment method  \n4. Complete the Purchase  \n5. Verify your payout details and Place the Request</string>
+    <string name="help_onean">1. Go to Main Screen and click on \'Convert\'  \n2. Select the amount you want to convert and click on \'Pay\'  \n3. Make sure \'Google Play Balance\' is selected as your payment method  \n4. Complete the Purchase  \n5. Verify your payout details and Submit</string>
     <string name="help_oneq">How to use the app to convert Opinion Rewards?</string>
     <string name="help_chrgsan">Google Play Commission Fees: 30% \nTransaction Charges: 10% \n\nYOU RECEIVE: 60% of the amount</string>
     <string name="help_chrgsq">Charges and Fees:</string>
     <string name="help_sub">When you make a purchase, you will receive 60% of the amount (see breakdown of charges below) \n\nTo avoid fraudulent purchases, it takes about 15 days to send the payment. Please be patient before giving negative ratings on Play Store</string>
     <string name="help_main">Rewards Converter is an app by which you can redeem your Google Play Balance or Coupons or Offers and you can also convert your Opinion Rewards by making in-app purchases</string>
+    <string name="main_act_ban">ca-app-pub-6711729529292720/9919762404</string>
+    <string name="crnt_ban">ca-app-pub-6711729529292720/1890304540</string>
+    <string name="test_ban">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="convact_int">ca-app-pub-6711729529292720/2541294823</string>
+    <string name="crnt_int">ca-app-pub-6711729529292720/6400648785</string>
+    <string name="req_int">ca-app-pub-6711729529292720/9924960825</string>
+    <string name="test_int">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="verify_percent">Note: You will receive ~60% of the amount you pay</string>
+    <string name="verify_time">Amount will be credited within 7 to 15 days</string>
+
+    <string name="title_activity_splash">Splash</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

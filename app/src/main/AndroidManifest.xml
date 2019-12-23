@@ -15,6 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activities.Splash"
+
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.TCs" />
+        <activity
             android:name=".activities.RequestPay"
             android:label="@string/title_activity_request_pay"
             android:parentActivityName=".activities.MainActivity"
@@ -23,8 +34,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.izhandroid.opinionrewardsconverter.activities.MainActivity" />
         </activity>
-        <activity android:name=".activities.HelpActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.HelpActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CurrentStatus"
             android:label="@string/title_activity_current_status"
@@ -66,21 +78,16 @@
         <activity
             android:name=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.PaymentDetails"
-            android:launchMode="singleInstance"
-
-            android:label="Add Payout Method" />
+            android:label="Add Payout Method"
+            android:launchMode="singleInstance" />
         <activity
             android:name=".activities.EditPay"
-            android:launchMode="singleTop"
-            android:label="Edit Payout Details" /> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+            android:label="Edit Payout Details"
+            android:launchMode="singleTop" /> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-6711729529292720~8989824113" />

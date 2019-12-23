@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,6 +64,9 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
+import java.util.prefs.Preferences;
+
 import static com.izhandroid.opinionrewardsconverter.utils.Constants.MY_PREFS_NAME;
 import static com.izhandroid.opinionrewardsconverter.utils.Constants.dbuemail;
 import static com.izhandroid.opinionrewardsconverter.utils.Constants.dbuser;
@@ -80,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     String usernames, forced;
     SharedPreferences.Editor editor;
-    SharedPreferences pref;
+    SharedPreferences pref, preferences;
     DatabaseReference databaseReferencename;
 CoordinatorLayout coordinatorLayout;
     @Override
@@ -105,6 +109,7 @@ CoordinatorLayout coordinatorLayout;
 
         //drawer
         pref = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        preferences = getApplicationContext().getSharedPreferences("f",MODE_PRIVATE);
         editor = pref.edit();
 
         showupdate();
@@ -119,28 +124,7 @@ CoordinatorLayout coordinatorLayout;
         });
         coordinatorLayout = findViewById(R.id.mainparent);
         usernames = pref.getString("name", null);
-//DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(dbuser);
-//        DatabaseReference reference = databaseReference.child(user.getPhoneNumber());
-//        databaseReferencename = reference.child(dbuname);
-//
-//
-//
-//
-//        databaseReferencename.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//               /// usernames = dataSnapshot.getValue(String.class);
-//
-//                Log.i("db", dataSnapshot.getValue(String.class));
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+
 
 
 
@@ -227,7 +211,7 @@ CoordinatorLayout coordinatorLayout;
                         new PrimaryDrawerItem().withName(R.string.rate).withIcon(R.drawable.ic_star_grey_900_24dp).withIdentifier(7).withSelectable(false),
                         new PrimaryDrawerItem().withName(R.string.share).withIcon(R.drawable.ic_share_grey_900_24dp).withIdentifier(8).withSelectable(false),
                         new SectionDrawerItem().withName("App"),
-                        new PrimaryDrawerItem().withName("Check for Update").withIcon(R.drawable.ic_get_app_grey_900_24dp).withIdentifier(9).withSelectable(false),
+                        new PrimaryDrawerItem().withName("Terms and Conditions").withIcon(R.drawable.ic_info_grey_900_24dp).withIdentifier(9).withSelectable(false),
                         new PrimaryDrawerItem().withName("Privacy Policy").withIcon(R.drawable.ic_info_grey_900_24dp).withIdentifier(10).withSelectable(false),
                         new PrimaryDrawerItem().withName(R.string.contact).withIcon(R.drawable.ic_contact_900_24dp).withIdentifier(11).withSelectable(false),
 
@@ -253,31 +237,43 @@ CoordinatorLayout coordinatorLayout;
                                 result.closeDrawer();
                             } else if (drawerItem.getIdentifier() == 2) {
 
-                                //Convert
-                                if(revokemsg==null) {
-                                    Toast.makeText(MainActivity.this, "loading data from the server, please wait..", Toast.LENGTH_SHORT).show();
-                                }else if(revokemsg.equals("*")){
-                                    if (pref.getBoolean("payment submitted", true)) {
-                                         intent = new Intent(MainActivity.this, ConversionActivity.class);
-                                        startActivity(intent);
+                                if(isOnline()) {
+                                    if (!preferences.getBoolean("first", false)) {
+
+                                        new AlertDialog.Builder(MainActivity.this)
+                                                .setTitle("Refer T&C's first")
+                                                .setMessage("Please checkout the Terms and Conditions before proceeding")
+                                                .setPositiveButton("Open", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        SharedPreferences.Editor edito = preferences.edit();
+                                                        edito.putBoolean("first", true);
+                                                        edito.commit();
+                                                        Intent in = new Intent(MainActivity.this, TCs.class);
+                                                        startActivity(in);
+                                                    }
+                                                })
+                                                .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        SharedPreferences.Editor edito = preferences.edit();
+                                                        edito.putBoolean("first", true);
+                                                        edito.commit();
+                                                        launchConv();
+                                                    }
+                                                })
+                                                .create()
+                                                .show();
+
+
                                     } else {
-                                         intent = new Intent(MainActivity.this, PaymentDetails.class);
-                                        startActivity(intent);
+                                        launchConv();
                                     }
-
                                 }else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                    builder.setTitle("Temporarily Unavailable");
-                                    builder.setMessage(revokemsg);
-                                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                                        }
-                                    });
-                                    builder.create();
-                                    builder.show();
+                                    showSnack(coordinatorLayout, "No Internet");
                                 }
+                                //Convert
+
                             } else if (drawerItem.getIdentifier() == 3) {
 
                                 //recent
@@ -330,7 +326,8 @@ CoordinatorLayout coordinatorLayout;
                                 startActivity(iintent);
                                 // intent = new Intent(MainActivity.this, MainActivity.class);
                             } else if (drawerItem.getIdentifier() == 9) {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id="+getPackageName())));
+                                Intent in = new Intent(MainActivity.this, TCs.class);
+                                startActivity(in);
                             } else if (drawerItem.getIdentifier() == 10) {
                                 //TODO privacy policy
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/reward-privacy-policy")));
@@ -341,7 +338,7 @@ CoordinatorLayout coordinatorLayout;
                                         "playrewardsconverter@gmail.com", null));
 
                                 email.putExtra(Intent.EXTRA_EMAIL, "playrewardsconverter@gmail.com");
-                                email.putExtra(Intent.EXTRA_SUBJECT, "src: "+getPackageName());
+                                email.putExtra(Intent.EXTRA_SUBJECT, "Feedback src: "+getPackageName());
                                 email.putExtra(Intent.EXTRA_TEXT, "Hello Team, \n");
                                 startActivity(email);
 
@@ -386,31 +383,41 @@ CoordinatorLayout coordinatorLayout;
             @Override
             public void onClick(View v) {
 
-                    if(revokemsg==null) {
-                        Toast.makeText(MainActivity.this, "loading data from the server, please wait..", Toast.LENGTH_SHORT).show();
-                    }else if(revokemsg.equals("*")){
-                        if (pref.getBoolean("payment submitted", true)) {
-                        Intent intent = new Intent(MainActivity.this, ConversionActivity.class);
-                        startActivity(intent);
-                        } else {
-                            Intent i = new Intent(MainActivity.this, PaymentDetails.class);
-                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(i);
-                        }
+                if(isOnline()) {
+                    if (!preferences.getBoolean("first", false)) {
 
-                    }else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setTitle("Temporarily Unavailable");
-                        builder.setMessage(revokemsg);
-                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("Refer T&C's first")
+                                .setMessage("Please checkout the Terms and Conditions before proceeding")
+                                .setPositiveButton("Open", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        SharedPreferences.Editor edito = preferences.edit();
+                                        edito.putBoolean("first", true);
+                                        edito.commit();
+                                        Intent in = new Intent(MainActivity.this, TCs.class);
+                                        startActivity(in);
+                                    }
+                                })
+                                .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        SharedPreferences.Editor edito = preferences.edit();
+                                        edito.putBoolean("first", true);
+                                        edito.commit();
+                                        launchConv();
+                                    }
+                                })
+                                .create()
+                                .show();
 
-                            }
-                        });
-                        builder.create();
-                        builder.show();
+
+                    } else {
+                        launchConv();
                     }
+                }else {
+                    showSnack(coordinatorLayout, "No Internet Connection!");
+                }
 
 
             }
@@ -443,6 +450,34 @@ CoordinatorLayout coordinatorLayout;
             }
         });
 
+    }
+
+    private void launchConv() {
+        if(revokemsg==null) {
+            Toast.makeText(MainActivity.this, "loading data from the server, please wait..", Toast.LENGTH_SHORT).show();
+        }else if(revokemsg.equals("*")){
+            if (pref.getBoolean("payment submitted", true)) {
+                Intent intent = new Intent(MainActivity.this, ConversionActivity.class);
+                startActivity(intent);
+            } else {
+               Intent intent = new Intent(MainActivity.this, PaymentDetails.class);
+                startActivity(intent);
+            }
+
+        }else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Temporarily Unavailable");
+            builder.setMessage(revokemsg);
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                }
+            });
+            builder.create();
+            builder.show();
+        }
     }
 
     private void showChangeemail() {

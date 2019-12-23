@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar_full_screen_dialog"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-black"
         android:text="$ 100"
         android:textColor="@color/md_green_600"
@@ -38,7 +38,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="18dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="Note: You will receive ~60% of the amount you pay"
+        android:text="@string/verify_percent"
         android:textAlignment="center"
         android:textColor="@color/md_grey_850" />
 
@@ -50,10 +50,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="18dp"
 
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/open_sans"
 
-        android:text="Amount will be credited within 7 to 15 days"
+        android:text="@string/verify_time"
         android:textColor="@color/md_grey_800"
         />
     <View
@@ -72,7 +72,7 @@
         android:layout_below="@id/lined"
         android:layout_marginStart="18dp"
 
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/open_sans"
         android:text="Payment in:"
         android:textSize="15sp" />

@@ -105,13 +105,13 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
 
     ProgressDialog progressDialog;
     ProgressBar progressBar;
-    String datetime, trno, emailuser, status;
+    String datetime, trno, emailuser;
 
     RequestQueue queue;
     TextView dc;
     long srno;
     SharedPreferences pref, purchsp;
-    DatabaseReference databaseReference;
+
     TextView pay, paydetails, payprice;
     String purchasetoken, payname, paydet;
     private String r30 = "rs.30";
@@ -167,7 +167,7 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         purchsp = getSharedPreferences(PREFPURCH, MODE_PRIVATE);
         orderid = "n";
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-6711729529292720/2541294823");
+        mInterstitialAd.setAdUnitId(getString(R.string.convact_int));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
         fetchSrno();
 
@@ -209,7 +209,6 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
         String usercountry = pref.getString("country", null);
 
 
-        dc.setText("You get ~60% of the amount you pay");
 
 
         purchaseitem = "x";
@@ -490,9 +489,7 @@ public class ConversionActivity extends AppCompatActivity implements PurchasesUp
 
             @Override
             public void onBillingServiceDisconnected() {
-                //TODO implement your own retry policy
-                // Try to restart the connection on the next request to
-                // Google Play by calling the startConnection() method.
+
 
 
                 Log.d(TAG, "Connection disconnect");
