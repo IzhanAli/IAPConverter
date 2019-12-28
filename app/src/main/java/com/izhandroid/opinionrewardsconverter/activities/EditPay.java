@@ -115,6 +115,8 @@ public class EditPay extends AppCompatActivity {
 
             }
         });
+
+
         btnsubmit.setText("Submit");
         btnsubmit.setEnabled(true);
 
