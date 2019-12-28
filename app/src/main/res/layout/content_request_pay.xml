@@ -3,28 +3,35 @@
   ~ Copyright (c) 2019. Izhan Ali. Accessing/leaking/modifying source codes is prohibited. Legal action will be taken for if you do such things.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/tlp"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.RequestPay"
     tools:showIn="@layout/activity_request_pay">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/tlp"
-    android:orientation="vertical">
+
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/md_grey_900"
         android:textAlignment="center"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:text="If it has been more than 20 days and you haven't received your payment you can contact us here:"
+        android:text="If it has been more than 20 days and you haven't received your payment you can contact us here. Select issue as 'Request Payment'"
         android:fontFamily="@font/open_sans"/>
 
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,18 +52,75 @@
             android:inputType="text"
             />
     </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        app:errorEnabled="true"
+        app:hintEnabled="true"
+
+        android:id="@+id/reqpay_layinfo"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:hint="Enter Details"
+
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/reqpay_txtinfo"
+            android:minLines="4"
+            android:maxLength="4000"
+
+            android:inputType="textMultiLine"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+       <com.google.android.material.card.MaterialCardView
+           android:layout_width="45dp"
+           app:contentPadding="-1dp"
+           android:clickable="true"
+           android:focusable="true"
+           android:id="@+id/wacrd"
+           android:layout_marginTop="8dp"
+           android:layout_marginBottom="7dp"
+           android:background="?attr/selectableItemBackgroundBorderless"
+           android:layout_marginStart="16dp"
+           android:layout_height="50dp">
+           <ImageView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:padding="-4dp"
+               android:scaleType="centerCrop"
+
+               android:src="@drawable/wp_ogo_2"
+               />
+       </com.google.android.material.card.MaterialCardView>
+        <TextView
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="or"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/btnsub"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:text="Submit"
+            android:textSize="15sp"
+            />
+    </LinearLayout>
+
+
 </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/btnsub"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_centerVertical="true"
-        android:text="Submit"
-        android:textSize="15sp"
-        />
 
-
-</RelativeLayout>

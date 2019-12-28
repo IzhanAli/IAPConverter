@@ -10,8 +10,8 @@
     tools:context=".activities.Registration"
 >
     <ImageView
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="136dp"
+        android:layout_height="136dp"
 android:id="@+id/logoimg"
         android:layout_marginTop="-35dp"
         android:layout_centerHorizontal="true"

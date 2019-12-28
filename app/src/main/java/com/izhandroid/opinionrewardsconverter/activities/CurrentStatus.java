@@ -10,20 +10,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdIconView;
-import com.facebook.ads.AdOptionsView;
-import com.facebook.ads.AudienceNetworkAds;
-import com.facebook.ads.MediaView;
-import com.facebook.ads.NativeAd;
-import com.facebook.ads.NativeAdLayout;
-
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +27,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -63,7 +57,7 @@ import static com.izhandroid.opinionrewardsconverter.utils.Constants.isOnline;
 
 
 public class CurrentStatus extends AppCompatActivity {
-    private final String TAG = NativeAd.class.getSimpleName();
+
 
     String mstatus, amtpaid, date, trid, crnttitle, crntdesc;
     private TextView mainStatustv, amountPaidtv, datetv, trIdtv, primarytv, secondarytv, paynametv, paydetailtv, txterr;
@@ -75,7 +69,7 @@ public class CurrentStatus extends AppCompatActivity {
     ClipboardManager clipboardManager;
     ClipData clipData;
     private RelativeLayout relativeLayout;
-    private NativeAdLayout nativeAdLayout;
+
     private LinearLayout offlineview;
     private InterstitialAd mInterstitialAd;
     @Override
@@ -108,11 +102,13 @@ public class CurrentStatus extends AppCompatActivity {
         }
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-6711729529292720/6400648785");
+        mInterstitialAd.setAdUnitId(getString(R.string.crnt_int));
         //TODO ad here
         //mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
+        AdView mAdView = findViewById(R.id.native_ad_crntstatus);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         View view = getWindow().getDecorView().getRootView();
         ExtendedFloatingActionButton fab = findViewById(R.id.extendedFloatingActionButtonstatus);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -140,9 +136,7 @@ public class CurrentStatus extends AppCompatActivity {
         }
 
 
-        AudienceNetworkAds.initialize(this);
-        NativeAdLayout nativeAdLayout = findViewById(R.id.native_ad_crntstatus);
-        NativeAdFb.loadAdNative(this, "895176207533823_895194007532043", nativeAdLayout);
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -162,17 +156,41 @@ public class CurrentStatus extends AppCompatActivity {
                 if (dataSnapshot.hasChild(dbcrnt)) {
                     retriveData();
                 } else {
-                    if(mInterstitialAd.isLoaded()){
-                        mInterstitialAd.show();
-                        prg.setVisibility(View.INVISIBLE);
-                        relativeLayout.setVisibility(View.GONE);
-                        offlineview.setVisibility(View.VISIBLE);
 
-                    }else {
-                        prg.setVisibility(View.INVISIBLE);
-                        relativeLayout.setVisibility(View.GONE);
-                        offlineview.setVisibility(View.VISIBLE);
-                    }
+                    mInterstitialAd.setAdListener(new AdListener(){
+                        @Override
+                        public void onAdClosed() {
+                            prg.setVisibility(View.INVISIBLE);
+                            relativeLayout.setVisibility(View.GONE);
+                            offlineview.setVisibility(View.VISIBLE);
+                            super.onAdClosed();
+                        }
+
+                        @Override
+                        public void onAdFailedToLoad(int i) {
+                            prg.setVisibility(View.INVISIBLE);
+                            relativeLayout.setVisibility(View.GONE);
+                            offlineview.setVisibility(View.VISIBLE);
+                            super.onAdFailedToLoad(i);
+                        }
+
+                        @Override
+                        public void onAdLoaded() {
+                            mInterstitialAd.show();
+                            super.onAdLoaded();
+                        }
+                    });
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            prg.setVisibility(View.INVISIBLE);
+                            relativeLayout.setVisibility(View.GONE);
+                            offlineview.setVisibility(View.VISIBLE);
+
+                        }
+                    },4000);
 
 
                 }
@@ -186,7 +204,7 @@ public class CurrentStatus extends AppCompatActivity {
                 offlineview.setVisibility(View.VISIBLE);
                 txterr.setText("An error occurred. Please check network or try again later");
                 imgerr.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
-                Log.e(TAG, databaseError.getDetails());
+                Log.e("Current Status", databaseError.getDetails());
             }
         });
     }
@@ -205,14 +223,33 @@ public class CurrentStatus extends AppCompatActivity {
                 crnttitle = dataSnapshot.child(dbprimary).getValue(String.class);
 
                 crntdesc = dataSnapshot.child(dbsecondary).getValue(String.class);
-                Log.d(TAG, "ok");
-                if(mInterstitialAd.isLoaded()){
-                    mInterstitialAd.show();
-                    setTvs();
-                }else{
-                   setTvs();
+                Log.d("Current", "ok");
+                mInterstitialAd.setAdListener(new AdListener(){
+                    @Override
+                    public void onAdFailedToLoad(int i) {
+                        setTvs();
+                        super.onAdFailedToLoad(i);
+                    }
 
-                }
+                    @Override
+                    public void onAdClosed() {
+                        setTvs();
+                        super.onAdClosed();
+                    }
+
+                    @Override
+                    public void onAdLoaded() {
+                        mInterstitialAd.show();
+                        super.onAdLoaded();
+                    }
+                });
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setTvs();
+                    }
+                },4000);
 
             }
 
@@ -313,7 +350,7 @@ public class CurrentStatus extends AppCompatActivity {
                 offlineview.setVisibility(View.VISIBLE);
                 txterr.setText("An error occurred. Please check network or try again later");
                 imgerr.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
-                Log.e(TAG, databaseError.getDetails());
+                Log.e("Current Status", databaseError.getDetails());
             }
         });
         copyIv.setOnClickListener(new View.OnClickListener() {
@@ -367,7 +404,7 @@ public class CurrentStatus extends AppCompatActivity {
                 offlineview.setVisibility(View.VISIBLE);
                 txterr.setText("An error occurred. Please check network or try again later");
                 imgerr.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
-                Log.e(TAG, databaseError.getDetails());
+                Log.e("Current Status", databaseError.getDetails());
             }
         });
 
@@ -375,45 +412,3 @@ public class CurrentStatus extends AppCompatActivity {
 
 
 }
-   /* MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-
-
-         AdLoader adLoader = new AdLoader.Builder(this, "ca-app-pub-3940256099942544/2247696110")
-                .forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
-                    @Override
-                    public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {
-                        // Show the ad.
-
-
-
-                    }
-                })
-                .withAdListener(new AdListener() {
-                    @Override
-                    public void onAdFailedToLoad(int errorCode) {
-                        // Handle the failure by logging, altering the UI, and so on.
-                    }
-                })
-                .withNativeAdOptions(new NativeAdOptions.Builder()
-                        // Methods in the NativeAdOptions.Builder class can be
-                        // used here to specify individual options settings.
-                        .build())
-                .build();
-
-
-
-        adLoader.loadAds(new AdRequest.Builder().build(), 2);
-        if (adLoader.isLoading()) {
-            // The AdLoader is still loading ads.
-            // Expect more adLoaded or onAdFailedToLoad callbacks.
-        } else {
-            // The AdLoader has finished loading ads.
-        }*/
-
-
-
-

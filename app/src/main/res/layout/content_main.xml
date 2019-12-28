@@ -11,12 +11,35 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_marginTop="70dp"
+            app:contentPadding="0dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_height="wrap_content">
+            <com.google.android.gms.ads.AdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mainadView"
+                android:layout_width="match_parent"
 
+                android:layout_height="wrap_content"
+
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/main_act_ban">
+                <!--ads:adUnitId= "ca-app-pub-3940256099942544/6300978111"-->
+
+                <!--TODO add here-->
+
+
+
+            </com.google.android.gms.ads.AdView>
+        </com.google.android.material.card.MaterialCardView>
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="20dp"
             app:cardBackgroundColor="@color/md_white_1000"
@@ -63,7 +86,6 @@
                     android:layout_marginTop="14dp"
                     android:id="@+id/onlinetxt"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:paddingStart="8dp"
                     android:text="Greetings from the Devs "
                     android:textAlignment="center"
                     android:textColor="@color/md_red_500"
@@ -82,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
             android:text="Convert"
 
@@ -96,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="105dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="40dp"
             android:orientation="horizontal"
@@ -109,9 +131,9 @@
                 android:id="@+id/recentbtn"
                 android:clickable="true"
                 android:focusable="true"
-
-                android:layout_weight="1"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_weight="1"
+
                 app:contentPadding="4dp">
 
                 <LinearLayout
@@ -179,25 +201,7 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_marginTop="22dp"
-            app:contentPadding="4dp"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_height="wrap_content">
-            <com.google.android.gms.ads.AdView
-                xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/mainadView"
-                android:layout_width="wrap_content"
 
-                android:layout_height="wrap_content"
-
-                ads:adSize="SMART_BANNER"
-                ads:adUnitId="ca-app-pub-6711729529292720/9919762404">
-                <!--TODO add here-->
-            </com.google.android.gms.ads.AdView>
-        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

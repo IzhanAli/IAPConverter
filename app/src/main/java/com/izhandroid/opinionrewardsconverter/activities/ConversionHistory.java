@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,6 +47,7 @@ public class ConversionHistory extends AppCompatActivity {
 
     RecyclerView.Adapter adapter ;
 
+    InterstitialAd mInterstitialAd;
     FirebaseAuth auth;
     FirebaseUser user;
 
@@ -56,6 +60,10 @@ public class ConversionHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convertion);
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.req_int));
+        //TODO ad here
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         recyclerView =  findViewById(R.id.recyclerView);
         auth = FirebaseAuth.getInstance();
@@ -99,7 +107,9 @@ public class ConversionHistory extends AppCompatActivity {
                 recyclerView.setAdapter(adapter);
 
                 progress.setVisibility(View.GONE);
-
+                if(mInterstitialAd.isLoaded()){
+                    mInterstitialAd.show();
+                }
 
 
             }
@@ -113,6 +123,8 @@ public class ConversionHistory extends AppCompatActivity {
 
             }
         });
+
+
 
     }
 }

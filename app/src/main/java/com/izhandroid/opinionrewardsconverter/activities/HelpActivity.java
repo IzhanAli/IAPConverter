@@ -41,10 +41,18 @@ public class HelpActivity extends AppCompatActivity {
                         "playrewardsconverter@gmail.com", null));
 
 
-                email.putExtra(Intent.EXTRA_SUBJECT, "Query");
+                email.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
                 email.putExtra(Intent.EXTRA_TEXT, "Hello, \n");
                 startActivity(email);
             }
         });
+
+
+    }
+
+
+    public void tnc(View view) {
+        Intent in = new Intent(HelpActivity.this, TCs.class);
+        startActivity(in);
     }
 }

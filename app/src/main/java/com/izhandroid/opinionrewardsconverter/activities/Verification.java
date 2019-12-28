@@ -66,8 +66,8 @@ public class Verification extends AppCompatActivity {
 
     String username, useremail, paymethod, payinfo;
     FirebaseUser user;
-RelativeLayout relativeLayout;
-     DatabaseReference databaseReference;
+    RelativeLayout relativeLayout;
+    DatabaseReference databaseReference;
     TextInputLayout textInputLayout;
 
     @Override
@@ -82,29 +82,29 @@ RelativeLayout relativeLayout;
         useremail = getIntent().getStringExtra("email");
         login = (Button) findViewById(R.id.submit);
         resend = findViewById(R.id.resend);
-textInputLayout = findViewById(R.id.txtinputverify);
-txt = findViewById(R.id.userno);
-txt.setText("OTP was sent on "+no);
+        textInputLayout = findViewById(R.id.txtinputverify);
+        txt = findViewById(R.id.userno);
+        txt.setText("OTP was sent on " + no);
         paymethod = "not";
         payinfo = "not";
-relativeLayout = findViewById(R.id.verificationparent);
+        relativeLayout = findViewById(R.id.verificationparent);
 
         pref = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         editor = pref.edit();
         progressBar = findViewById(R.id.prg);
 
         resend.setEnabled(false);
-textView=findViewById(R.id.info);
+        textView = findViewById(R.id.info);
         resend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(isOnline()) {
+                if (isOnline()) {
                     startTimer(1);
                     sendVerificationCode(no);
                     FancyToast.makeText(Verification.this, "OTP Sent Successfully!", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
                     resend.setEnabled(false);
-                }else {
+                } else {
                     showSnack(relativeLayout, "Unable to connect! Check internet connection");
                 }
 
@@ -127,9 +127,9 @@ textView=findViewById(R.id.info);
                 }
 
                 //verifying the code entered manually
-                if(isOnline()) {
+                if (isOnline()) {
                     verifyVerificationCode(code);
-                }else {
+                } else {
                     showSnack(relativeLayout, "Unable to connect! Check internet connection");
                 }
             }
@@ -166,6 +166,7 @@ textView=findViewById(R.id.info);
             }
         }.start();
     }
+
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
@@ -196,6 +197,7 @@ textView=findViewById(R.id.info);
             mVerificationId = s;
         }
     };
+
     private void sendVerificationCode(String no) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 no,
@@ -209,28 +211,34 @@ textView=findViewById(R.id.info);
     private void verifyVerificationCode(String code) {
         //creating the credential
 
-progressBar.setVisibility(View.VISIBLE);
-textView.setVisibility(View.INVISIBLE);
-textInputLayout.setVisibility(View.INVISIBLE);
-resend.setVisibility(View.INVISIBLE);
-textView.setVisibility(View.INVISIBLE);
-login.setVisibility(View.INVISIBLE);
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
-        //signing the user
-        signInWithPhoneAuthCredential(credential);
+        progressBar.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.INVISIBLE);
+        textInputLayout.setVisibility(View.INVISIBLE);
+        resend.setVisibility(View.INVISIBLE);
+        textView.setVisibility(View.INVISIBLE);
+        login.setVisibility(View.INVISIBLE);
+
+        try {
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+            //signing the user
+            signInWithPhoneAuthCredential(credential);
+        }catch (Exception e){
+            FancyToast.makeText(Verification.this, "Incorrect or Invalid OTP", FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show();
+        }
     }
 
-    private void createProfile(){
+    private void createProfile() {
         setResult(1);
-finish();
+        finish();
         Intent intent = new Intent(Verification.this, Profile.class);
 
-        intent.putExtra("country",countrystring);
-        intent.putExtra("name",username);
+        intent.putExtra("country", countrystring);
+        intent.putExtra("name", username);
         intent.putExtra("email", useremail);
 
         startActivity(intent);
     }
+
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(Verification.this, new OnCompleteListener<AuthResult>() {
@@ -240,51 +248,48 @@ finish();
                             //verification successful we will start the profile activity
                             writePref("country", countrystring);
                             writePref("name", username);
-                           //ProgressDialog myprg = Constants.DialogUtils.showprgdialog(Verification.this);
-                                    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-                                   DatabaseReference usr = rootRef.child(dbuser);
-                                    usr.child(no);
-                                    usr.addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange( DataSnapshot snapshot) {
-                                            if (snapshot.getValue()==null) {
-                                                createProfile();
+                            //ProgressDialog myprg = Constants.DialogUtils.showprgdialog(Verification.this);
+                            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                            DatabaseReference usr = rootRef.child(dbuser);
+                            usr.child(no);
+                            usr.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    if (snapshot.getValue() == null) {
+                                        createProfile();
 
-                                                // run some code
-                                            }else {
-                                                DatabaseReference num = usr.child(no).child("list");
-                                                num.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(DataSnapshot snapshot) {
-                                                        if (snapshot.getValue()==null) {
-                                                            createProfile();
+                                        // run some code
+                                    } else {
+                                        DatabaseReference num = usr.child(no).child("list");
+                                        num.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot snapshot) {
+                                                if (snapshot.getValue() == null) {
+                                                    createProfile();
 
-                                                        }else{
-                                                            setResult(1);
-                                                            finish();
-                                                            Intent intent = new Intent(Verification.this, MainActivity.class);
+                                                } else {
+                                                    setResult(1);
+                                                    finish();
+                                                    Intent intent = new Intent(Verification.this, MainActivity.class);
 
-                                                            startActivity(intent);
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                    }
-                                                });
+                                                    startActivity(intent);
+                                                }
                                             }
-                                        }
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            Toast.makeText(Verification.this, databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                        }
-                                    });
+                                            }
+                                        });
+                                    }
+                                }
 
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toast.makeText(Verification.this, databaseError.getMessage(), Toast.LENGTH_LONG).show();
 
-
+                                }
+                            });
 
 
                         } else {
@@ -299,7 +304,7 @@ finish();
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 FancyToast.makeText(Verification.this, "Incorrect OTP entered", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
 
-                            } else  {
+                            } else {
                                 FancyToast.makeText(Verification.this, "Unable to verify please retry later", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
 
                             }
