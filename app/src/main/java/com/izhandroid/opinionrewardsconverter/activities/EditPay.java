@@ -190,7 +190,7 @@ public class EditPay extends AppCompatActivity {
                     paymethod = "Google Pay";
 
                 } else if (phonepe.isChecked()) {
-                    pay.setHint("Enter PhonePe Number");
+                    pay.setHint("Enter your PhonePe Number");
                     pay.setInputType(InputType.TYPE_CLASS_NUMBER);
 
                     paylay.setHelperText("PhonePe Number");
