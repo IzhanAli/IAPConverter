@@ -182,7 +182,7 @@ public class EditPay extends AppCompatActivity {
                     btnsubmit.setVisibility(View.VISIBLE);
                     paymethod = "Paytm";
                 } else if (gpay.isChecked()) {
-                    pay.setHint("Enter Google Pay Number");
+                    pay.setHint("Enter your Google Pay Number");
                     pay.setInputType(InputType.TYPE_CLASS_NUMBER);
                     paylay.setHelperText("Google Pay Number");
                     pay.setVisibility(View.VISIBLE);
