@@ -175,7 +175,7 @@ public class EditPay extends AppCompatActivity {
                     btnsubmit.setEnabled(false);
                 }
                 if (paytm.isChecked()) {
-                    pay.setHint("Enter Paytm Number");
+                    pay.setHint("Enter your Paytm Number");
                     pay.setInputType(InputType.TYPE_CLASS_NUMBER);
                     paylay.setHelperText("Paytm Number");
                     pay.setVisibility(View.VISIBLE);
