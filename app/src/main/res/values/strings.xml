@@ -65,7 +65,7 @@
     <string name="help_chrgsan">Google Play Commission Fees: 30% \nTransaction Charges: 10% \n\nYOU RECEIVE: 60% of the amount</string>
     <string name="help_chrgsq">Charges and Fees:</string>
     <string name="help_sub">When you make a purchase, you will receive 60% of the amount (see breakdown of charges below) \n\nTo avoid fraudulent purchases, it takes about 15 days to send the payment. Please be patient before giving negative ratings on Play Store</string>
-    <string name="help_main">Rewards Converter is an app by which you can redeem your Google Play Balance or Coupons or Offers and you can also convert your Opinion Rewards by making in-app purchases</string>
+    <string name="help_main">Rewards Converter is an app by which you can redeem your Google Play Balance or Coupons or Credits and you can also convert your Opinion Rewards by making in-app purchases</string>
     <string name="main_act_ban">ca-app-pub-6711729529292720/9919762404</string>
     <string name="crnt_ban">ca-app-pub-6711729529292720/1890304540</string>
     <string name="test_ban">ca-app-pub-3940256099942544/6300978111</string>

@@ -54,7 +54,7 @@
         android:fontFamily="@font/open_sans"
 
         android:text="@string/verify_time"
-        android:textColor="@color/md_grey_800"
+        android:textColor="@color/md_black_1000"
         />
     <View
         android:layout_width="match_parent"

@@ -32,8 +32,11 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.izhandroid.opinionrewardsconverter.R;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
@@ -89,7 +92,29 @@ public class EditPay extends AppCompatActivity {
         paylay = findViewById(R.id.paylay);
         usercountry = pref.getString("country", null);
 
+        textView = findViewById(R.id.noticepay);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
+        DatabaseReference reference = databaseReference.child("paynotice");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String note;
+                if (usercountry.equals("India")){
+                    note = dataSnapshot.child("india").getValue(String.class);
+                }else{
+                    note = dataSnapshot.child("other").getValue(String.class);
+                }
+                if(note!=null&& !note.equals("*")){
+                    textView.setText(note);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         btnsubmit.setText("Submit");
         btnsubmit.setEnabled(true);
 

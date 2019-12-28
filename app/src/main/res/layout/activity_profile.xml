@@ -131,7 +131,6 @@ android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:id="@+id/paymentdetails"
-            android:maxLength="20"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 <ProgressBar
@@ -152,8 +151,9 @@ android:layout_marginEnd="10dp"
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" "
-        android:id="@+id/notice"
+        android:text=""
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/noticepay"
         android:textColor="@color/md_red_400"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"

@@ -74,16 +74,53 @@
             android:inputType="textMultiLine"
             />
     </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.button.MaterialButton
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:id="@+id/btnsub"
-    android:layout_marginStart="@dimen/activity_horizontal_margin"
-    android:layout_marginEnd="@dimen/activity_horizontal_margin"
-    android:layout_centerVertical="true"
-    android:text="Submit"
-    android:textSize="15sp"
-    />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+       <com.google.android.material.card.MaterialCardView
+           android:layout_width="45dp"
+           app:contentPadding="-1dp"
+           android:clickable="true"
+           android:focusable="true"
+           android:id="@+id/wacrd"
+           android:layout_marginTop="8dp"
+           android:layout_marginBottom="7dp"
+           android:background="?attr/selectableItemBackgroundBorderless"
+           android:layout_marginStart="16dp"
+           android:layout_height="50dp">
+           <ImageView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:padding="-4dp"
+               android:scaleType="centerCrop"
+
+               android:src="@drawable/wp_ogo_2"
+               />
+       </com.google.android.material.card.MaterialCardView>
+        <TextView
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="or"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/btnsub"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:text="Submit"
+            android:textSize="15sp"
+            />
+    </LinearLayout>
+
+
 </LinearLayout>
 
 

@@ -34,8 +34,11 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.izhandroid.opinionrewardsconverter.R;
 import com.izhandroid.opinionrewardsconverter.adapters.UserInfo;
 import com.izhandroid.opinionrewardsconverter.utils.Constants;
@@ -151,7 +154,29 @@ public class Profile extends AppCompatActivity {
             }
         });
 
+        textView = findViewById(R.id.noticepay);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
+        DatabaseReference reference = databaseReference.child("paynotice");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String note;
+                if (usercountry.equals("India")){
+                    note = dataSnapshot.child("india").getValue(String.class);
+                }else{
+                    note = dataSnapshot.child("other").getValue(String.class);
+                }
+                if(note!=null&& !note.equals("*")){
+                    textView.setText(note);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         if (usercountry.equals("India")) {
             radioGroupone.setVisibility(View.VISIBLE);
             paypalintl.setVisibility(View.GONE);
@@ -280,7 +305,10 @@ public class Profile extends AppCompatActivity {
         UserInfo userInfo = new UserInfo(username, useremail, paymethod, payinfo, usercountry);
         FirebaseUser user = auth.getCurrentUser();
         payinfo = pay.getText().toString();
-        databaseReference.child(dbuser).child(user.getPhoneNumber()).setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.child(dbuser)
+                .child(user.getPhoneNumber())
+                .setValue(userInfo)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
@@ -319,7 +347,10 @@ public class Profile extends AppCompatActivity {
 
         FirebaseUser user = auth.getCurrentUser();
 
-        databaseReference.child(dbuser).child(user.getPhoneNumber()).setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.child(dbuser)
+                .child(user.getPhoneNumber())
+                .setValue(userInfo)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 

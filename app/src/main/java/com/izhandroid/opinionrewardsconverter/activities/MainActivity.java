@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     String revokemsg =null;
     FirebaseDatabase database;
     FirebaseUser user;
-    String usernames, forced;
+    String usernames, forced, vcodes;
     SharedPreferences.Editor editor;
     SharedPreferences pref, preferences;
     DatabaseReference databaseReferencename;
@@ -547,7 +547,7 @@ CoordinatorLayout coordinatorLayout;
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-               String vcodes = String.valueOf(dataSnapshot.child("versioncode").getValue(Long.class));
+                vcodes = String.valueOf(dataSnapshot.child("versioncode").getValue(Long.class));
                String force = dataSnapshot.child("force").getValue(String.class);
                String note = dataSnapshot.child("Notice").getValue(String.class);
                String revoke = dataSnapshot.child("close").getValue(String.class);
@@ -592,40 +592,31 @@ CoordinatorLayout coordinatorLayout;
 
 
 
-
+        AlertDialog.Builder builder = forcedialog();
         if (vcode < versionCodes) {
             if (forced.contains("yes")){
 
-                forcedialog().show();
+                builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        finish();
+                    }
+                });
+                builder.show();
 
             }else{
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setCancelable(true);
                 builder.setTitle("New Update Available!");
                 builder.setMessage("Please install the latest version from Play Store \nUpdate now for better app experience");
-                builder.setIcon(android.R.drawable.ic_dialog_alert);
-
-
-                builder.setPositiveButton("Update Now", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("http://play.google.com/store/apps/details?id=" + MainActivity.this.getPackageName())));
-
-                    }
-                });
-
-                builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener(){
+                builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                     }
                 });
-
-                builder.show();
-
+               builder.show();
 
 
             }
@@ -636,11 +627,11 @@ CoordinatorLayout coordinatorLayout;
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(false);
         builder.setTitle("Update required!");
-        builder.setMessage("New update available \nApp will not work until you install the latest version from Play Store");
+        builder.setMessage("New update available \nApp won't run till you update to the latest version");
         builder.setIcon(android.R.drawable.ic_dialog_alert);
 
 
-        builder.setPositiveButton("Install Now", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Update Now", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -650,14 +641,29 @@ CoordinatorLayout coordinatorLayout;
             }
         });
 
-        builder.setNegativeButton("Close App", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-            }
-        });
+        //builder.setNegativeButton(neg, listener);
 
         return builder;
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(vcodes!=null&&forced!=null) {
+            if (forced.equals("yes")) {
+                checkupdate(vcode, Integer.valueOf(vcodes));
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(vcodes!=null&&forced!=null) {
+            if (forced.equals("yes")) {
+                checkupdate(vcode, Integer.valueOf(vcodes));
+            }
+        }
     }
 }

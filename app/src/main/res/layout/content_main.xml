@@ -131,9 +131,9 @@
                 android:id="@+id/recentbtn"
                 android:clickable="true"
                 android:focusable="true"
-
-                android:layout_weight="1"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_weight="1"
+
                 app:contentPadding="4dp">
 
                 <LinearLayout

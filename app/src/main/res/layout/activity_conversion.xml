@@ -150,7 +150,7 @@ android:id="@+id/pay"
         android:textColor="@color/md_grey_900"
 
         android:layout_marginTop="20dp"
-        android:text="*Prices may vary countrywise due to conversion rates, however you will get 60% of the amount you pay  \n \n*It takes around 7 to 15 business days for the amount to be sent"/>
+        android:text="*Prices may vary countrywise due to conversion rates"/>
 </LinearLayout>
 
 </RelativeLayout>
